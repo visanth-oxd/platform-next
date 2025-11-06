@@ -1,0 +1,9 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: region-issuer
+  labels:
+    overlay.scope: region
+spec:
+  description: "Use key <CERT_ISSUER_KEY> to select issuer in higher-level patches"
+

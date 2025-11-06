@@ -1,0 +1,61 @@
+varReference:
+- path: spec/commonName
+  kind: Certificate
+
+- path: spec/dnsNames
+  kind: Certificate
+
+- path: metadata/annotations/kubernetes.io\/ingress.global-static-ip-name
+  kind: Ingress
+
+- path: metadata/name
+  kind: Ingress
+
+- path: subjects/name
+  kind: RoleBinding
+
+- path: subjects/namespace
+  kind: RoleBinding
+
+- path: subjects/name
+  kind: ClusterRoleBinding
+
+- path: subjects/namespace
+  kind: ClusterRoleBinding
+
+- path: metadata/name
+  kind: ClusterRoleBinding
+
+- path: metadata/name
+  kind: Namespace
+
+- path: metadata/labels/namespace
+  kind: Namespace
+
+- path: metadata/annotations/tenant-gcp-project-prefix
+  kind: Namespace
+
+- path: data/TIER
+  kind: ConfigMap
+
+- path: data/NAMESPACE
+  kind: ConfigMap
+
+- path: data/TENANT_GCP_PROJECT_PREFIX
+  kind: ConfigMap
+
+- path: data/CLUSTER_NAME
+  kind: ConfigMap
+
+- path: data/CLUSTER_REGION
+  kind: ConfigMap
+
+- path: data/CLUSTER_REGION_SHORTENED
+  kind: ConfigMap
+
+- path: data/proxy-set-headers
+  kind: ConfigMap
+
+- path: spec/triggers/metadata/query
+  kind: ScaledObject
+

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: PLACEHOLDER
+  labels:
+    managed-by: kustomize
+    platform: kubernetes
+  annotations:
+    platform.kubernetes.io/managed: "true"
+

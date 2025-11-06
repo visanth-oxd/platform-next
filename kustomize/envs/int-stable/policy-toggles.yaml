@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-policy-toggles
+data:
+  ENABLE_STRICT_NETPOL: "true"
+  ENABLE_DEFAULT_PDB: "true"
+

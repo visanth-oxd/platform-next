@@ -1,0 +1,92 @@
+services:
+  - name: account-service
+    type: api
+    image: <GAR_IMAGE_ACCOUNT>
+    tagStrategy: gar-latest-by-branch
+    channel: stable
+    regions: [euw1, euw2]
+    enabledIn: [int-stable, pre-stable, prod]
+    namespaceTemplate: "{env}-{service}-{region}-stable"
+    components:
+      - ingress
+      - retry
+      - circuit-breaker
+      - mtls
+      - hpa
+      - security-hardening
+      - serviceaccount-rbac
+      - network-policy
+      - pdb
+      - topology
+    ports:
+      servicePort: 80
+      targetPort: 8080
+    domains:
+      int-stable: <FQDN_KEY_INT>
+      pre-stable: <FQDN_KEY_PRE>
+      prod: <FQDN_KEY_PROD>
+    hpa:
+      enabled: true
+      minReplicas:
+        defaults: 2
+        overrides:
+          prod: 4
+      maxReplicas:
+        defaults: 6
+        overrides:
+          prod: 10
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 75
+    resources:
+      defaults:
+        cpu: "250m"
+        memory: "512Mi"
+      overrides:
+        prod:
+          cpu: "500m"
+          memory: "1Gi"
+    retry:
+      attempts: 3
+      perTryTimeout: 2s
+      retryOn: "<RETRY_ON_KEYS>"
+    trafficPolicy:
+      modeKey: <TLS_MODE_KEY>
+      outlierDetection:
+        consecutiveErrors: 5
+        interval: 5s
+        baseEjectionTime: 30s
+        maxEjectionPercent: 20
+    health:
+      deployments: [account-service]
+
+  - name: events-listener
+    type: listener
+    image: <GAR_IMAGE_LISTENER>
+    tagStrategy: gar-latest
+    channel: stable
+    regions: [euw1, euw2]
+    enabledIn: [int-stable, prod]
+    namespaceTemplate: "{env}-{service}-{region}-stable"
+    components:
+      - security-hardening
+      - serviceaccount-rbac
+      - network-policy
+      - pdb
+    hpa:
+      enabled: false
+    replicas:
+      defaults: 2
+      overrides:
+        prod: 3
+    resources:
+      defaults:
+        cpu: "200m"
+        memory: "256Mi"
+    health:
+      deployments: [events-listener]
+

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: PLACEHOLDER
+  labels:
+    environment: int-stable
+    compliance.tier: "<TIER_KEY>"
+

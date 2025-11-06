@@ -1,0 +1,8 @@
+regionPins:
+  euw1:
+    int-stable: refs/tags/<CONFIG_TAG>
+    prod: refs/tags/<CONFIG_TAG>
+  euw2:
+    int-stable: refs/tags/<CONFIG_TAG>
+    prod: refs/tags/<CONFIG_TAG>
+

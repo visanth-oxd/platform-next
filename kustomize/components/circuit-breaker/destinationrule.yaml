@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: app
+  labels:
+    app.kubernetes.io/component: destinationrule
+spec:
+  host: app
+  trafficPolicy:
+    tls:
+      mode: PLACEHOLDER_TLS_MODE
+    outlierDetection:
+      consecutiveErrors: PLACEHOLDER_CONSECUTIVE_ERRORS
+      interval: PLACEHOLDER_INTERVAL
+      baseEjectionTime: PLACEHOLDER_BASE_EJECTION_TIME
+      maxEjectionPercent: PLACEHOLDER_MAX_EJECTION_PERCENT
+

@@ -1,0 +1,14 @@
+regions:
+  euw1:
+    displayName: <REGION_DISPLAY_NAME_PRIMARY>
+    dnsSuffixKey: <DNS_SUFFIX_KEY>
+    gatewayClassKey: <GATEWAY_CLASS_KEY>
+    certificateIssuerKey: <CERT_ISSUER_KEY>
+    zoneLabelKey: <ZONE_LABEL_KEY>
+  euw2:
+    displayName: <REGION_DISPLAY_NAME_DR>
+    dnsSuffixKey: <DNS_SUFFIX_KEY>
+    gatewayClassKey: <GATEWAY_CLASS_KEY>
+    certificateIssuerKey: <CERT_ISSUER_KEY>
+    zoneLabelKey: <ZONE_LABEL_KEY>
+

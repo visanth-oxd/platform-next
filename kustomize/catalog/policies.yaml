@@ -1,0 +1,23 @@
+policies:
+  immutableFields:
+    - kind: Service
+      fields:
+        - spec.type
+        - spec.clusterIP
+    - kind: PersistentVolumeClaim
+      fields:
+        - spec.storageClassName
+        - spec.accessModes
+  denyList:
+    - kind: Pod
+      fields:
+        - spec.securityContext.privileged
+        - spec.containers[].securityContext.privileged
+    - kind: Deployment
+      fields:
+        - spec.template.spec.containers[].securityContext.privileged
+  allowedPatterns:
+    - kind: Ingress
+      field: spec.rules[].host
+      pattern: "^[a-z0-9.-]+\\.[a-z]{2,}$"
+

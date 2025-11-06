@@ -1,0 +1,4 @@
+channels:
+  stable: refs/tags/config-2025.11.06
+  next: refs/tags/config-2025.11.06-rc1
+

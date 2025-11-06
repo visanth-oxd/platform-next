@@ -1,0 +1,10 @@
+envPins:
+  int-stable: refs/tags/config-2025.11.06
+  pre-stable: refs/tags/config-2025.11.06
+  prod: refs/tags/config-2025.10.28
+
+defaultChannel:
+  int-stable: next
+  pre-stable: stable
+  prod: stable
+

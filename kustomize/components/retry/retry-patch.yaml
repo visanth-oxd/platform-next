@@ -1,0 +1,11 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app
+spec:
+  http:
+    - retries:
+        attempts: PLACEHOLDER_ATTEMPTS
+        perTryTimeout: PLACEHOLDER_PER_TRY_TIMEOUT
+        retryOn: "PLACEHOLDER_RETRY_ON"
+

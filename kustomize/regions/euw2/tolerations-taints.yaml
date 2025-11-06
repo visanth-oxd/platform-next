@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: PLACEHOLDER
+spec:
+  template:
+    spec:
+      tolerations:
+        - key: "workload/region"
+          operator: "Equal"
+          value: "euw2"
+          effect: "NoSchedule"
+
