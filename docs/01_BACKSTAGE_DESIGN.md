@@ -239,10 +239,10 @@ spec:
       required:
         - slackChannel
       properties:
-        slackChannel:
-          title: Slack Channel
+        teamsChannel:
+          title: Microsoft Teams Channel
           type: string
-          description: Team Slack channel for deployment notifications
+          description: Team Teams channel for deployment notifications
           pattern: '^#[a-z0-9-]+$'
           default: '#platform-notifications'
           ui:help: 'Must start with # (e.g., #team-payments)'
@@ -287,7 +287,7 @@ spec:
               environments: ${{ parameters.environments | dump }}
               regions: ${{ parameters.regions | dump }}
               team: ${{ parameters.owner }}
-              slack: ${{ parameters.slackChannel }}
+              teams: ${{ parameters.teamsChannel }}
               ${{ parameters.pagerduty && 'pagerduty: ' + parameters.pagerduty }}
               ${{ parameters.prodSizeOverride && 'resources:\n  overrides:\n    prod:\n      size: ' + parameters.prodSizeOverride }}
               harness:
@@ -498,7 +498,7 @@ spec:
           
           - **Backstage Catalog**: View pods, logs, metrics
           - **Harness Console**: View deployment history, approvals
-          - **Slack**: Get notifications in ${{ parameters.slackChannel }}
+          - **Teams**: Get notifications in ${{ parameters.teamsChannel }}
           
           ### Service Details
           
