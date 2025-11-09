@@ -1,0 +1,496 @@
+<mxfile host="app.diagrams.net" modified="2025-11-09T00:00:00.000Z" agent="5.0" version="21.6.5" etag="architecture-v1" type="device">
+  <diagram name="Platform-Next Architecture" id="platform-next-arch">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Platform-Next: Kubernetes Config Management Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="800" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Developer -->
+        <mxCell id="developer" value="Developer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="40" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Component 1: Backstage -->
+        <mxCell id="backstage-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="200" y="80" width="300" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backstage-title" value="Backstage Developer Portal" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="220" y="90" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backstage-url" value="https://backstage.company.com" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="220" y="115" width="260" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="software-template" value="Software Templates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="220" y="150" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="service-catalog" value="Service Catalog" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="360" y="150" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="k8s-plugin" value="Kubernetes Plugin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="220" y="210" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-plugin" value="Harness Plugin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="360" y="210" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="github-plugin" value="GitHub Plugin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="220" y="270" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="techdocs-plugin" value="TechDocs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="360" y="270" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Component 2: Platform-Next Repo -->
+        <mxCell id="platform-next-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="600" y="80" width="380" height="380" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="platform-next-title" value="Platform-Next Config Repo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="90" width="340" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="platform-next-org" value="GitHub: company/platform-next" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="620" y="115" width="340" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="catalog-file" value="catalog/services.yaml&#xa;(Single source of truth)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="620" y="150" width="160" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="archetypes" value="archetype/&#xa;(api, listener, streaming,&#xa;scheduler, job)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="800" y="150" width="160" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="components" value="components/&#xa;(ingress, hpa, pdb,&#xa;retry, circuit-breaker, mtls)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="620" y="220" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="overlays" value="envs/ + regions/&#xa;(int-stable, pre-stable, prod)&#xa;(euw1, euw2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="800" y="220" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="generated-manifests" value="generated/&#xa;{service}/{env}/{region}/&#xa;manifests.yaml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="300" width="340" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ci-pipeline" value="GitHub Actions CI&#xa;(Manifest Generation)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="620" y="370" width="340" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Component 3: Pipeline Orchestrator -->
+        <mxCell id="orchestrator-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="200" width="220" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="orchestrator-title" value="Pipeline Orchestrator" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1050" y="210" width="200" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="orchestrator-service" value="Microservice (FastAPI)&#xa;&#xa;• Create pipelines&#xa;• Manage lifecycle&#xa;• Bridge repos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="240" width="200" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Component 4: Harness Pipelines Repo -->
+        <mxCell id="harness-repo-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="360" width="220" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-repo-title" value="Harness Pipelines Repo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1050" y="370" width="200" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-repo-org" value="GitHub: company-harness/&#xa;harness-pipelines" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="1050" y="395" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pipeline-templates" value="templates/&#xa;(api, listener, job, etc.)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="435" width="180" height="45" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pipeline-instances" value="pipelines/&#xa;(payment-service-cd.yaml)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="495" width="180" height="45" as="geometry" />
+        </mxCell>
+        
+        <!-- Component 5: Harness Platform -->
+        <mxCell id="harness-platform-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#cc6600;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="200" y="500" width="460" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-platform-title" value="Harness SaaS Platform" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="220" y="510" width="420" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-url" value="https://app.harness.io" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="220" y="535" width="420" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pipeline-1" value="payment-service-cd&#xa;(Runtime: imageTag)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="220" y="570" width="130" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pipeline-2" value="account-service-cd&#xa;(Runtime: imageTag)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="370" y="570" width="130" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pipeline-n" value="... 100+ pipelines" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="520" y="570" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-features" value="✓ Multi-gate approvals&#xa;✓ Canary deployments&#xa;✓ Change windows&#xa;✓ Audit trail" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="220" y="635" width="420" height="55" as="geometry" />
+        </mxCell>
+        
+        <!-- Component 6: Kubernetes Clusters -->
+        <mxCell id="k8s-clusters-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f2ff;strokeColor=#0066cc;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="200" y="760" width="1060" height="380" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="k8s-title" value="Kubernetes Clusters (Multi-Cluster, Multi-Network)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="220" y="770" width="1020" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Cluster 1: Int-Stable -->
+        <mxCell id="cluster-int" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="220" y="820" width="300" height="290" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cluster-int-title" value="Int-Stable Cluster" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="240" y="830" width="260" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cluster-int-details" value="Network: 10.1.0.0/16&#xa;Region: euw1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="240" y="855" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delegate-int" value="Harness Delegate&#xa;harness-delegate-int-euw1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="240" y="900" width="240" height="45" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ns-int-1" value="Namespace:&#xa;int-payment-service-euw1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="240" y="960" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ns-int-2" value="Namespace:&#xa;int-account-service-euw1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="365" y="960" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pods-int" value="Pods (6), Services (2),&#xa;Deployments (2), HPA, PDB..." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="240" y="1035" width="235" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Cluster 2: Pre-Stable -->
+        <mxCell id="cluster-pre" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="550" y="820" width="300" height="290" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cluster-pre-title" value="Pre-Stable Cluster" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="830" width="260" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cluster-pre-details" value="Network: 10.2.0.0/16&#xa;Region: euw1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="570" y="855" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delegate-pre" value="Harness Delegate&#xa;harness-delegate-pre-euw1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="900" width="240" height="45" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ns-pre-1" value="Namespace:&#xa;pre-payment-service-euw1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="570" y="960" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Cluster 3: Production -->
+        <mxCell id="cluster-prod" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="880" y="820" width="300" height="290" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cluster-prod-title" value="Production Cluster" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#cc6600;" vertex="1" parent="1">
+          <mxGeometry x="900" y="830" width="260" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cluster-prod-details" value="Network: 10.3.0.0/16&#xa;Region: euw1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="900" y="855" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delegate-prod" value="Harness Delegate&#xa;harness-delegate-prod-euw1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="900" y="900" width="240" height="45" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ns-prod-1" value="Namespace:&#xa;prod-payment-service-euw1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="900" y="960" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ns-prod-2" value="Namespace:&#xa;prod-account-service-euw1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1025" y="960" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Developer to Backstage -->
+        <mxCell id="arrow-dev-backstage" value="1. Onboard Service&#xa;(Fill form)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066cc;fontSize=11;fontStyle=1" edge="1" parent="1" source="developer" target="software-template">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Backstage to Platform-Next -->
+        <mxCell id="arrow-backstage-catalog" value="2. Create PR&#xa;(Update catalog)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#00cc66;fontSize=11;fontStyle=1" edge="1" parent="1" source="software-template" target="catalog-file">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="170" />
+              <mxPoint x="520" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Backstage to Orchestrator -->
+        <mxCell id="arrow-backstage-orchestrator" value="3. Create Pipeline&#xa;(API call)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#cc00cc;fontSize=11;fontStyle=1" edge="1" parent="1" source="software-template" target="orchestrator-service">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="200" />
+              <mxPoint x="1150" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: CI Pipeline -->
+        <mxCell id="arrow-catalog-ci" value="4. Trigger CI&#xa;(Catalog changed)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#ff9900;fontSize=11;fontStyle=1" edge="1" parent="1" source="catalog-file" target="ci-pipeline">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="200" />
+              <mxPoint x="550" y="200" />
+              <mxPoint x="550" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: CI Generates Manifests -->
+        <mxCell id="arrow-ci-manifests" value="5. Generate &amp; Commit&#xa;(kustomize build)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#009900;fontSize=11;fontStyle=1" edge="1" parent="1" source="ci-pipeline" target="generated-manifests">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="420" />
+              <mxPoint x="790" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Orchestrator to Harness Repo -->
+        <mxCell id="arrow-orchestrator-repo" value="6. Generate&#xa;Pipeline YAML" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#6600cc;fontSize=11;fontStyle=1" edge="1" parent="1" source="orchestrator-service" target="pipeline-instances">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Harness Repo to Harness Platform -->
+        <mxCell id="arrow-repo-harness" value="7. Create in Harness&#xa;(Harness API)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#cc0066;fontSize=11;fontStyle=1" edge="1" parent="1" source="pipeline-instances" target="pipeline-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1150" y="600" />
+              <mxPoint x="285" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Harness to Generated Manifests -->
+        <mxCell id="arrow-harness-manifests" value="8. Fetch Manifests&#xa;(Cross-org GitHub)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0099cc;fontSize=11;fontStyle=1;dashed=1" edge="1" parent="1" source="pipeline-1" target="generated-manifests">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="285" y="480" />
+              <mxPoint x="790" y="480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Harness to Clusters (via Delegates) -->
+        <mxCell id="arrow-harness-int" value="9a. Deploy&#xa;(via delegate)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#009900;fontSize=11;fontStyle=1" edge="1" parent="1" source="pipeline-1" target="delegate-int">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="285" y="720" />
+              <mxPoint x="360" y="720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-harness-pre" value="9b. Deploy&#xa;(via delegate)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#ff9900;fontSize=11;fontStyle=1" edge="1" parent="1" source="pipeline-1" target="delegate-pre">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="435" y="720" />
+              <mxPoint x="690" y="720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-harness-prod" value="9c. Deploy&#xa;(via delegate)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#cc0000;fontSize=11;fontStyle=1" edge="1" parent="1" source="pipeline-1" target="delegate-prod">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="720" />
+              <mxPoint x="1020" y="720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Delegates to Namespaces -->
+        <mxCell id="arrow-delegate-int-ns" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="delegate-int" target="ns-int-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-delegate-int-ns2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="delegate-int" target="ns-int-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-delegate-prod-ns" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="delegate-prod" target="ns-prod-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-delegate-prod-ns2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="delegate-prod" target="ns-prod-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="80" width="240" height="340" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1330" y="90" width="220" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-flow1" value="Onboarding Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1330" y="130" width="220" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-line1" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#0066cc;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1340" y="160" as="sourcePoint" />
+            <mxPoint x="1400" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-text1" value="User interaction" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="150" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-line2" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#00cc66;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1340" y="190" as="sourcePoint" />
+            <mxPoint x="1400" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-text2" value="Git operations (PR)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="180" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-line3" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#cc00cc;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1340" y="220" as="sourcePoint" />
+            <mxPoint x="1400" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-text3" value="API calls" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="210" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-line4" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#0099cc;dashed=1" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1340" y="250" as="sourcePoint" />
+            <mxPoint x="1400" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-text4" value="GitOps fetch (cross-org)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="240" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-line5" value="" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#009900;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1340" y="280" as="sourcePoint" />
+            <mxPoint x="1400" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-text5" value="K8s deployment" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="270" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-components" value="Components" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1330" y="310" width="220" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-component1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="340" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-comp-text1" value="Developer Portal (Backstage)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="335" width="170" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-component2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="370" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-comp-text2" value="Config Repos (Git)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="365" width="170" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-component3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#cc6600;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="400" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-comp-text3" value="Harness Platform (CD)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="395" width="170" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Annotations -->
+        <mxCell id="annotation-gitops" value="✅ GitOps&#xa;Manifests in Git&#xa;Declarative" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="1030" y="300" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="annotation-security" value="✅ Secure&#xa;No shell scripts&#xa;K8s native only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="680" y="570" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="annotation-multicluster" value="✅ Multi-Cluster&#xa;Separate networks&#xa;Delegate per cluster" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="1200" y="920" width="130" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Notes Box -->
+        <mxCell id="notes-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="460" width="240" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="notes-title" value="Key Features" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1330" y="470" width="220" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="notes-content" value="🚀 Self-Service Onboarding&#xa;   • 5-field form in Backstage&#xa;   • 5-10 min to service ready&#xa;&#xa;📦 Catalog-Driven&#xa;   • Single services.yaml&#xa;   • T-shirt sizing (S/M/L/XL)&#xa;   • Behavior profiles&#xa;&#xa;🔄 GitOps Compliant&#xa;   • Config in Git&#xa;   • Manifests versioned&#xa;   • Declarative deployment&#xa;&#xa;🎯 Enterprise CD&#xa;   • Multi-gate approvals&#xa;   • Canary deployments&#xa;   • Audit trail&#xa;&#xa;🌍 Multi-Cluster&#xa;   • 3 clusters, 3 networks&#xa;   • Delegate per cluster&#xa;   • 2 regions (active-passive)&#xa;&#xa;⚡ Scalable&#xa;   • 100+ services&#xa;   • 20+ parallel deploys&#xa;   • Per-service pipelines" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1335" y="500" width="215" height="230" as="geometry" />
+        </mxCell>
+        
+        <!-- Flow Numbers -->
+        <mxCell id="flow-number-1" value="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#0066cc;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="145" y="145" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-number-2" value="2" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#00cc66;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="530" y="120" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-number-3" value="3" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#cc00cc;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="950" y="170" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-number-4" value="4" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ff9900;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="560" y="330" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-number-5" value="5" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#009900;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="850" y="370" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-number-9" value="9" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#cc0000;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="705" width="30" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
