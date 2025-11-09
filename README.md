@@ -1,6 +1,84 @@
-# Kustomize Config Management Repository
+# Platform-Next: Kubernetes Config Management Platform
 
 This repository contains the Kustomize-based configuration management system for deploying Kubernetes workloads across multiple environments and regions.
+
+**Key Features**:
+- 🚀 **Self-Service**: Onboard services via Backstage in 5 minutes
+- 📦 **Catalog-Driven**: Single source of truth for all services
+- 🔄 **GitOps**: All configuration versioned in Git
+- 🎯 **Enterprise CD**: Harness pipelines with multi-gate approvals
+- 🌍 **Multi-Region**: Active-passive deployment (euw1 primary, euw2 DR)
+- 🏗️ **Composable**: Archetypes + Components = flexible configurations
+
+---
+
+## Documentation
+
+📚 **Start here for detailed design**:
+
+- [00_ARCHITECTURE_DECISION.md](docs/00_ARCHITECTURE_DECISION.md) - Why we chose this approach
+- [01_BACKSTAGE_DESIGN.md](docs/01_BACKSTAGE_DESIGN.md) - Service onboarding via Backstage
+- [02_KUSTOMIZE_CONFIG_MANAGEMENT.md](docs/02_KUSTOMIZE_CONFIG_MANAGEMENT.md) - Kustomize layer design
+- [03_HARNESS_INTEGRATION_DESIGN.md](docs/03_HARNESS_INTEGRATION_DESIGN.md) - Harness CD pipelines
+
+---
+
+## Quick Start
+
+### For Developers: Onboard a New Service
+
+1. **Open Backstage Portal**
+   ```
+   https://backstage.company.com → Create → Kubernetes Service
+   ```
+
+2. **Fill the Form** (5 fields):
+   - Service Name: `my-service`
+   - Archetype: `api`
+   - Profile: `public-api`
+   - Size: `medium`
+   - Environments: `int, pre, prod`
+
+3. **Click Create**
+   - Manifests auto-generated
+   - Harness pipeline auto-created
+   - Service ready in 5-10 minutes
+
+4. **Deploy Your Service**
+   - Open Harness Console → Pipelines → `my-service-cd`
+   - Click "Run Pipeline"
+   - Enter image tag: `v1.0.0`
+   - Click "Run"
+
+**Done!** Service deployed to Kubernetes.
+
+---
+
+### For Platform Team: Update Configuration
+
+1. **Update Catalog or Archetypes**
+   ```bash
+   vim kustomize/catalog/services.yaml
+   # or
+   vim kustomize/archetype/api/deployment.yaml
+   ```
+
+2. **Commit to Git**
+   ```bash
+   git add .
+   git commit -m "Update API archetype resources"
+   git push
+   ```
+
+3. **CI Auto-Runs**
+   - Detects changes
+   - Regenerates affected manifests
+   - Commits to `generated/` directory
+
+4. **Next Deployment Uses New Config**
+   - Harness fetches latest from Git
+   - No manual sync needed
+   - GitOps auto-sync
 
 ## Structure
 
