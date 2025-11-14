@@ -11,13 +11,15 @@
 - 🎯 **Self-Service**: Empower teams to deploy without bottlenecks
 - 🌍 **Multi-Region**: Built-in disaster recovery and resilience
 - 🏢 **Enterprise-Grade**: Compliance, approvals, and governance
+- 💰 **Cost Intelligence**: Granular cost tracking, optimization, and governance
 
 **Business Impact**:
 - **Time to Market**: Deploy new services 10x faster
 - **Operational Efficiency**: 80% reduction in platform team toil
-- **Cost Optimization**: Right-sized resources, reduced waste
+- **Cost Optimization**: 20-30% infrastructure cost reduction ($500K-$700K annual savings)
 - **Risk Reduction**: Standardized security, consistent compliance
 - **Developer Experience**: Simple, intuitive, self-service
+- **Financial Visibility**: 100% cost transparency with team-level chargeback
 
 ---
 
@@ -161,6 +163,31 @@
 - Network-aware deployment
 
 **Enabled By**: Region Overlays + Multi-Cluster Delegates
+
+---
+
+#### Pillar 6: Cost Intelligence & FinOps
+
+**From**:
+- No per-service cost visibility
+- Surprise cloud bills
+- Over-provisioned resources (30-40% waste)
+- No budget accountability
+
+**To**:
+- Real-time cost per service, team, environment
+- Predictive cost forecasting
+- AI-powered right-sizing recommendations
+- Budget limits and alerts
+- Team-level chargeback
+
+**Enabled By**: OpenCost + Cost Aggregation Service + Backstage Cost Plugin
+
+**Impact**:
+- 20-30% cost reduction ($500K-$700K annual savings)
+- 100% cost visibility
+- Budget accountability
+- Automatic optimization
 
 ---
 

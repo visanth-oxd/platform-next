@@ -1,0 +1,507 @@
+<mxfile host="app.diagrams.net" modified="2025-11-09T00:00:00.000Z" agent="5.0" version="21.6.5" etag="cost-mgmt-v1" type="device">
+  <diagram name="Cost Management Architecture" id="cost-mgmt-arch">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Platform-Next: Granular Cost Management Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;fontColor=#2e7d32" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="1200" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 1: Kubernetes Clusters with Labels -->
+        <mxCell id="k8s-layer" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="100" y="100" width="600" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="k8s-title" value="Layer 1: Kubernetes Resources with Cost Labels" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#2e7d32" vertex="1" parent="1">
+          <mxGeometry x="120" y="110" width="560" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pod-example" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="130" y="160" width="540" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pod-title" value="Pod: payment-service-abc123" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="145" y="170" width="500" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pod-labels" value="Labels (Cost Dimensions):&#xa;  app: payment-service&#xa;  cost.team: payments-team&#xa;  cost.service: payment-service&#xa;  cost.environment: prod&#xa;  cost.region: euw1&#xa;  cost.archetype: api&#xa;  cost.size: large&#xa;  cost.business-unit: retail-banking&#xa;  cost.cost-center: CC-12345&#xa;  cost.budget-monthly: &quot;5000&quot;&#xa;&#xa;Resources:&#xa;  CPU: 500m (usage: 350m = 70%)&#xa;  Memory: 1Gi (usage: 650Mi = 65%)&#xa;&#xa;💰 Hourly Cost: $0.070" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="150" y="195" width="500" height="155" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 2: Metrics Collection -->
+        <mxCell id="metrics-layer" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="100" y="420" width="600" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metrics-title" value="Layer 2: Metrics Collection" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#1976d2" vertex="1" parent="1">
+          <mxGeometry x="120" y="430" width="560" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="prometheus-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="130" y="475" width="240" height="105" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="prometheus-title" value="Prometheus" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="145" y="485" width="210" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="prometheus-metrics" value="Metrics:&#xa;• container_cpu_usage_seconds_total&#xa;• container_memory_working_set_bytes&#xa;• kube_pod_labels&#xa;• kube_pod_container_resource_requests" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="150" y="510" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="opencost-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="400" y="475" width="260" height="105" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="opencost-title" value="OpenCost" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="415" y="485" width="230" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="opencost-calc" value="Cost Calculation:&#xa;• CPU cost = usage × price × time&#xa;• Memory cost = usage × price × time&#xa;• Aggregate by labels&#xa;• Expose API: /allocation/compute" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="420" y="510" width="230" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow: K8s to Prometheus -->
+        <mxCell id="arrow-k8s-prom" value="Scrape&#xa;Metrics&#xa;(every 1m)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#1976d2;fontSize=10;fontStyle=1" edge="1" parent="1" source="pod-example" target="prometheus-box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow: Prometheus to OpenCost -->
+        <mxCell id="arrow-prom-opencost" value="Query&#xa;Metrics" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#2e7d32;fontSize=10;fontStyle=1" edge="1" parent="1" source="prometheus-box" target="opencost-box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 3: Cost Processing -->
+        <mxCell id="processing-layer" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff9800;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="750" y="100" width="500" height="500" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="processing-title" value="Layer 3: Cost Analytics &amp; Intelligence" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#ff9800" vertex="1" parent="1">
+          <mxGeometry x="770" y="110" width="460" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="aggregator-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="780" y="160" width="220" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="aggregator-title" value="Cost Aggregation Service" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="790" y="170" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="aggregator-tasks" value="Tasks (every 15 min):&#xa;• Poll OpenCost API&#xa;• Aggregate by dimensions&#xa;• Store in TimescaleDB&#xa;• Calculate trends&#xa;• Detect anomalies" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="795" y="195" width="195" height="75" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="optimizer-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="160" width="210" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="optimizer-title" value="Cost Optimization Engine" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1030" y="170" width="190" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="optimizer-tasks" value="AI/ML Functions:&#xa;• Right-sizing analysis&#xa;• HPA recommendations&#xa;• Spot instance candidates&#xa;• Anomaly detection&#xa;• Cost forecasting (Prophet)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="195" width="185" height="75" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="database-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="780" y="300" width="220" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="db-title" value="TimescaleDB" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="790" y="310" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="db-content" value="Tables:&#xa;• service_costs (time-series)&#xa;• service_budgets&#xa;• cost_alerts&#xa;• optimization_recommendations&#xa;&#xa;Retention: 365 days" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="795" y="335" width="195" height="65" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-api-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="300" width="210" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-api-title" value="Cost API (REST)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1030" y="310" width="190" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-api-endpoints" value="Endpoints:&#xa;• GET /costs/service/{name}&#xa;• GET /costs/team/{name}&#xa;• GET /costs/trends&#xa;• POST /costs/recommendations&#xa;• GET /costs/alerts" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1030" y="335" width="190" height="65" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="alert-engine-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#c62828;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="780" y="435" width="450" height="145" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="alert-title" value="Alert &amp; Notification Engine" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="790" y="445" width="430" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="alert-budget" value="Budget Alert&#xa;(>80% used)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="800" y="480" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="alert-anomaly" value="Anomaly Alert&#xa;(Spike >50%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="920" y="480" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="alert-optimize" value="Optimization Alert&#xa;(Low usage)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1040" y="480" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="alert-targets" value="Alert Delivery:&#xa;→ Microsoft Teams (#team-payments, #platform-finops)&#xa;→ Email (team-lead@company.com)&#xa;→ Backstage notifications (in-app)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="800" y="535" width="410" height="35" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Processing Layer -->
+        <mxCell id="arrow-opencost-aggregator" value="Poll API&#xa;(every 15m)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#ff9800;fontSize=10;fontStyle=1" edge="1" parent="1" source="opencost-box" target="aggregator-box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="720" y="528" />
+              <mxPoint x="720" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-aggregator-db" value="Store&#xa;Time-Series" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7b1fa2;fontSize=10" edge="1" parent="1" source="aggregator-box" target="database-box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-aggregator-optimizer" value="Trigger&#xa;Analysis" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0277bd;fontSize=10" edge="1" parent="1" source="aggregator-box" target="optimizer-box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-db-api" value="Query" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#00796b;fontSize=10" edge="1" parent="1" source="database-box" target="cost-api-box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-optimizer-alerts" value="Generate&#xa;Alerts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#c62828;fontSize=10" edge="1" parent="1" source="optimizer-box" target="alert-engine-box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1125" y="290" />
+              <mxPoint x="1005" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Layer 4: Presentation -->
+        <mxCell id="presentation-layer" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="100" y="650" width="1150" height="360" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="presentation-title" value="Layer 4: Cost Visibility &amp; Governance" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#c2185b" vertex="1" parent="1">
+          <mxGeometry x="120" y="660" width="1110" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Backstage Cost Plugin -->
+        <mxCell id="backstage-cost-plugin" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="130" y="710" width="280" height="270" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backstage-cost-title" value="Backstage Cost Plugin" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="145" y="720" width="250" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-widget" value="Cost Widget" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="150" y="755" width="110" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="budget-widget" value="Budget Status" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="270" y="755" width="110" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="trend-widget" value="Cost Trends&#xa;(Chart)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="150" y="805" width="110" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="breakdown-widget" value="Resource&#xa;Breakdown" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="270" y="805" width="110" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="recommendations-widget" value="Optimization&#xa;Recommendations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="855" width="230" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="forecast-widget" value="Cost Forecast&#xa;(30-day prediction)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="150" y="905" width="230" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="actions-widget" value="Quick Actions:&#xa;• Apply recommendation&#xa;• Set budget alert&#xa;• Download report" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffccbc;strokeColor=#d84315;fontSize=9;align=left" vertex="1" parent="1">
+          <mxGeometry x="150" y="950" width="230" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Team Dashboard -->
+        <mxCell id="team-dashboard" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#3f51b5;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="440" y="710" width="280" height="270" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="team-dash-title" value="Team Cost Dashboard" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="455" y="720" width="250" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="team-overview" value="Team Overview&#xa;($8,543 / $50K)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c5cae9;strokeColor=#3f51b5;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="460" y="755" width="240" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="team-services" value="Services List&#xa;(8 services)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c5cae9;strokeColor=#3f51b5;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="460" y="805" width="240" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="team-env-breakdown" value="Environment Breakdown&#xa;(prod: 84%, pre: 11%, int: 5%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c5cae9;strokeColor=#3f51b5;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="460" y="855" width="240" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="team-savings" value="Savings Opportunities&#xa;($1,240/month potential)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="460" y="905" width="240" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="team-chargeback" value="Chargeback Report&#xa;(Monthly PDF)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f57f17;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="460" y="950" width="240" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Executive Dashboard -->
+        <mxCell id="exec-dashboard" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f57c00;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="750" y="710" width="280" height="270" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="exec-dash-title" value="Executive Dashboard (FinOps)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="765" y="720" width="250" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="exec-total-cost" value="Platform Total Cost&#xa;($125K/month)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe082;strokeColor=#f57c00;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="770" y="755" width="240" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="exec-by-bu" value="Cost by Business Unit&#xa;(Retail: 60%, Corporate: 40%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe082;strokeColor=#f57c00;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="770" y="805" width="240" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="exec-trend" value="Cost Trend&#xa;(+8% MoM)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe082;strokeColor=#f57c00;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="770" y="855" width="240" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="exec-savings" value="Optimization Potential&#xa;($25K/month = 20%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="770" y="905" width="240" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="exec-forecast" value="Next Quarter Forecast&#xa;($385K projected)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="770" y="950" width="240" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Policy Engine -->
+        <mxCell id="policy-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="710" width="170" height="270" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-title" value="Cost Policies (OPA)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1070" y="720" width="150" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-1" value="Budget Approval&#xa;(>$10K)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="1075" y="755" width="140" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-2" value="Cost Center&#xa;Required (prod)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="1075" y="795" width="140" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-3" value="Size Limits&#xa;(by env)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="1075" y="835" width="140" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-4" value="Auto-Optimize&#xa;Threshold" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="1075" y="875" width="140" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-5" value="Budget Breach&#xa;Action" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#c2185b;fontSize=9" vertex="1" parent="1">
+          <mxGeometry x="1075" y="915" width="140" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-enforcement" value="Enforced in:&#xa;• Backstage form validation&#xa;• CI manifest generation&#xa;• Harness pre-deploy" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="955" width="130" height="15" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Presentation -->
+        <mxCell id="arrow-api-backstage" value="Cost Data&#xa;API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#00796b;fontSize=10;fontStyle=1" edge="1" parent="1" source="cost-api-box" target="backstage-cost-plugin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1125" y="620" />
+              <mxPoint x="270" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-api-team-dash" value="Team&#xa;Aggregates" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#3f51b5;fontSize=10" edge="1" parent="1" source="cost-api-box" target="team-dashboard">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1125" y="620" />
+              <mxPoint x="580" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-api-exec-dash" value="Platform&#xa;Totals" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#f57c00;fontSize=10" edge="1" parent="1" source="cost-api-box" target="exec-dashboard">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1125" y="620" />
+              <mxPoint x="890" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Integration Callouts -->
+        <mxCell id="integration-catalog" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;strokeWidth=2;dashed=1;dashPattern=8 8" vertex="1" parent="1">
+          <mxGeometry x="1300" y="100" width="280" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="integration-catalog-title" value="Integration: Service Catalog" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#2e7d32" vertex="1" parent="1">
+          <mxGeometry x="1310" y="110" width="260" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="integration-catalog-content" value="catalog/services.yaml (extended):&#xa;&#xa;services:&#xa;  - name: payment-service&#xa;    size: large&#xa;    cost:&#xa;      budgetMonthly: 5000&#xa;      costCenter: CC-12345&#xa;      businessUnit: retail&#xa;      autoOptimize: true&#xa;&#xa;catalog/sizes.yaml (extended):&#xa;&#xa;sizes:&#xa;  large:&#xa;    cost:&#xa;      monthlyCost: 50.40&#xa;      hourlyCost: 0.070" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1315" y="135" width="255" height="135" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="integration-kustomize" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff9800;strokeWidth=2;dashed=1;dashPattern=8 8" vertex="1" parent="1">
+          <mxGeometry x="1300" y="300" width="280" height="160" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="integration-kustomize-title" value="Integration: Kustomize Manifests" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#ff9800" vertex="1" parent="1">
+          <mxGeometry x="1310" y="310" width="260" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="integration-kustomize-content" value="Auto-injected labels:&#xa;&#xa;commonLabels:&#xa;  cost.team: payments-team&#xa;  cost.service: payment-service&#xa;  cost.environment: prod&#xa;  cost.size: large&#xa;  cost.cost-center: CC-12345&#xa;  cost.business-unit: retail&#xa;&#xa;commonAnnotations:&#xa;  cost.budget-monthly: &quot;5000&quot;&#xa;  cost.optimization.enabled: &quot;true&quot;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1315" y="335" width="255" height="115" as="geometry" />
+        </mxCell>
+        
+        <!-- ROI Box -->
+        <mxCell id="roi-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="480" width="280" height="240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="roi-title" value="💰 Business Impact" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#2e7d32" vertex="1" parent="1">
+          <mxGeometry x="1310" y="490" width="260" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="roi-content" value="Cost Visibility:&#xa;✓ 100% services tracked&#xa;✓ Real-time cost data&#xa;✓ Per-service, per-team, per-env&#xa;&#xa;Optimization:&#xa;✓ 20-30% cost reduction potential&#xa;✓ $500K-$700K annual savings&#xa;✓ AI-powered recommendations&#xa;&#xa;Governance:&#xa;✓ Budget enforcement&#xa;✓ Chargeback to teams&#xa;✓ Policy-driven controls&#xa;&#xa;ROI:&#xa;💵 Investment: $100K (setup)&#xa;💵 Annual Savings: $500K-$700K&#xa;📈 Payback: 2-3 months&#xa;&#xa;Intangible Benefits:&#xa;• Developer cost awareness&#xa;• Team accountability&#xa;• Finance visibility&#xa;• Predictable budgets" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1315" y="520" width="255" height="190" as="geometry" />
+        </mxCell>
+        
+        <!-- Teams Notification Example -->
+        <mxCell id="teams-notif-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="750" width="280" height="260" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="teams-notif-title" value="📱 Teams Notification Example" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#1976d2" vertex="1" parent="1">
+          <mxGeometry x="1310" y="760" width="260" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="teams-card" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1976d2;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="795" width="240" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="teams-card-header" value="⚠️ Cost Alert: payment-service" style="text;html=1;strokeColor=none;fillColor=#ffc107;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1330" y="805" width="220" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="teams-card-body" value="Budget Alert&#xa;&#xa;Service exceeded 85% of monthly budget&#xa;&#xa;Current Cost: $4,250&#xa;Budget: $5,000&#xa;Used: 85%&#xa;Remaining: $750&#xa;&#xa;💡 Recommendation:&#xa;Right-size to medium size&#xa;Potential savings: $120/month&#xa;&#xa;[View in Backstage] [Apply Fix]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1335" y="840" width="210" height="145" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow: Alerts to Teams -->
+        <mxCell id="arrow-alerts-teams" value="Webhook" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1976d2;fontSize=10;fontStyle=1" edge="1" parent="1" source="alert-engine-box" target="teams-notif-box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1270" y="508" />
+              <mxPoint x="1270" y="880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Data Flow Numbers -->
+        <mxCell id="flow-num-1" value="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#2e7d32;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="385" y="385" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-num-2" value="2" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ff9800;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="710" y="340" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-num-3" value="3" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#7b1fa2;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="875" y="270" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-num-4" value="4" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#00796b;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1110" y="410" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-num-5" value="5" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#c2185b;strokeColor=none;fontColor=#ffffff;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="565" y="615" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Cost Dimensions Box -->
+        <mxCell id="dimensions-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1050" width="600" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dimensions-title" value="📊 Cost Attribution Dimensions" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#7b1fa2" vertex="1" parent="1">
+          <mxGeometry x="120" y="1060" width="560" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dimensions-content" value="Multi-Dimensional Cost Analysis Enabled By Labels:&#xa;&#xa;By Service:     payment-service ($243/month), fraud-detection ($512/month)&#xa;By Team:        payments-team ($8,543/month), identity-team ($4,230/month)&#xa;By Environment: prod ($100K/month), pre ($15K/month), int ($5K/month)&#xa;By Region:      euw1 ($95K/month), euw2 ($25K/month)&#xa;By Archetype:   api ($80K/month), listener ($25K/month), job ($15K/month)&#xa;By Size:        xlarge ($45K/month), large ($40K/month), medium ($25K/month)&#xa;By Business Unit: retail-banking ($75K/month), corporate-banking ($45K/month)&#xa;By Cost Center: CC-12345 ($30K/month), CC-67890 ($20K/month)&#xa;&#xa;This enables:&#xa;✓ Chargeback to teams and cost centers&#xa;✓ Budget enforcement at any dimension&#xa;✓ Trend analysis by any attribute&#xa;✓ Optimization targeting (e.g., &quot;which large services can be right-sized?&quot;)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1090" width="560" height="130" as="geometry" />
+        </mxCell>
+        
+        <!-- Use Cases Box -->
+        <mxCell id="usecases-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="750" y="1050" width="500" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="usecases-title" value="🎯 Use Cases" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#c2185b" vertex="1" parent="1">
+          <mxGeometry x="770" y="1060" width="460" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="usecases-content" value="1. Developer Onboarding:&#xa;   → See estimated cost when selecting size&#xa;   → Set monthly budget limit&#xa;   → Get cost forecast&#xa;&#xa;2. Daily Operations:&#xa;   → View service cost in Backstage&#xa;   → Get right-sizing recommendations&#xa;   → Apply optimizations with one click&#xa;&#xa;3. Team Budget Management:&#xa;   → Track team total cost vs budget&#xa;   → Get alerts at 80% threshold&#xa;   → View top 5 cost drivers&#xa;   → Download monthly reports&#xa;&#xa;4. Executive Oversight:&#xa;   → Platform total cost tracking&#xa;   → Cost by business unit&#xa;   → Optimization opportunities&#xa;   → Quarterly forecasts&#xa;&#xa;5. FinOps Automation:&#xa;   → Auto-scale down over-provisioned services&#xa;   → Spot instance recommendations&#xa;   → Storage cleanup suggestions&#xa;   → Chargeback report generation" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="770" y="1090" width="460" height="130" as="geometry" />
+        </mxCell>
+        
+        <!-- Technology Stack -->
+        <mxCell id="tech-stack-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="1050" width="280" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="tech-title" value="🛠️ Technology Stack" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#0277bd" vertex="1" parent="1">
+          <mxGeometry x="1310" y="1060" width="260" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="tech-content" value="Cost Collection:&#xa;• OpenCost (open-source)&#xa;• Prometheus (metrics)&#xa;&#xa;Cost Storage:&#xa;• TimescaleDB (time-series DB)&#xa;• PostgreSQL (metadata)&#xa;&#xa;Cost Analytics:&#xa;• Python (FastAPI)&#xa;• Prophet (forecasting ML)&#xa;• Pandas (data analysis)&#xa;&#xa;Cost Presentation:&#xa;• Backstage plugin (React)&#xa;• Grafana (dashboards)&#xa;&#xa;Integration:&#xa;• OpenCost API (cost data)&#xa;• Harness API (deployment tracking)&#xa;• GitHub API (catalog updates)&#xa;• Teams webhooks (notifications)&#xa;&#xa;Infrastructure:&#xa;• Deployed in each K8s cluster&#xa;• Minimal overhead (<100m CPU)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1315" y="1090" width="255" height="130" as="geometry" />
+        </mxCell>
+        
+        <!-- Cost Flow Labels -->
+        <mxCell id="flow-label-1" value="Metrics with labels" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2;rotation=-90" vertex="1" parent="1">
+          <mxGeometry x="345" y="380" width="110" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-label-2" value="Cost calculation" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="645" y="310" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-label-3" value="Aggregation &amp; storage" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2;rotation=-90" vertex="1" parent="1">
+          <mxGeometry x="825" y="245" width="130" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-label-4" value="REST API" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="1020" y="385" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-label-5" value="Visualization" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2;rotation=-90" vertex="1" parent="1">
+          <mxGeometry x="540" y="615" width="90" height="20" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
