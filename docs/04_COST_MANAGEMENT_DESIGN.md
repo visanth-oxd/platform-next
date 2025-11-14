@@ -505,7 +505,34 @@ services:
     cost:
       # Budget limits
       budgetMonthly: 5000  # $5,000/month budget
-      alertThreshold: 0.8  # Alert at 80% of budget
+      
+      # Alert thresholds (multiple levels)
+      alerts:
+        - threshold: 0.5   # 50% of budget
+          severity: info
+          channels:
+            teams: ["#team-payments"]
+            email: ["team-lead@company.com"]
+        
+        - threshold: 0.8   # 80% of budget
+          severity: warning
+          channels:
+            teams: ["#team-payments", "#platform-finops"]
+            email: ["team-lead@company.com", "finance-team@company.com"]
+        
+        - threshold: 1.0   # 100% of budget (exceeded)
+          severity: critical
+          channels:
+            teams: ["#team-payments", "#platform-finops", "#platform-leadership"]
+            email: ["team-lead@company.com", "finance-team@company.com", "vp-engineering@company.com"]
+        
+        # Anomaly alerts
+        - type: anomaly
+          condition: "cost_spike > 50%"  # Cost spike > 50% vs previous week
+          severity: warning
+          channels:
+            teams: ["#team-payments"]
+            email: ["team-lead@company.com"]
       
       # Cost center allocation
       costCenter: CC-12345
@@ -760,33 +787,141 @@ def analyze_service(service_name: str, window_days: int = 7):
 
 ## 10. Budget Alerts & Governance
 
-### Alert System
+### Alert System with Configurable Thresholds
+
+**Multi-Level Alert Configuration**:
+
+Services can define multiple alert thresholds with custom notification channels:
+
+```yaml
+# Example: Progressive alerts for payment-service
+cost:
+  budgetMonthly: 5000
+  alerts:
+    # Level 1: Early warning (50%)
+    - threshold: 0.5
+      severity: info
+      message: "Monthly budget 50% consumed"
+      channels:
+        teams: ["#team-payments"]
+        email: ["team-lead@company.com"]
+      frequency: once  # Alert once when threshold crossed
+    
+    # Level 2: Warning (80%)
+    - threshold: 0.8
+      severity: warning
+      message: "Monthly budget 80% consumed - review usage"
+      channels:
+        teams: ["#team-payments", "#platform-finops"]
+        email: ["team-lead@company.com", "finance-team@company.com"]
+      frequency: daily  # Daily reminder while over threshold
+    
+    # Level 3: Critical (100%)
+    - threshold: 1.0
+      severity: critical
+      message: "Monthly budget exceeded - immediate action required"
+      channels:
+        teams: ["#team-payments", "#platform-finops", "#platform-leadership"]
+        email: ["team-lead@company.com", "finance-team@company.com", "vp-engineering@company.com"]
+      frequency: hourly  # Escalate until resolved
+      actions:
+        - createIncident: true  # Auto-create PagerDuty incident
+        - blockDeployments: false  # Optional: prevent new deploys
+```
 
 **Alert Types**:
 
-1. **Budget Threshold Alert**
-   - Trigger: Service cost > 80% of monthly budget
-   - Severity: Warning
-   - Action: Notify team in Teams
+1. **Budget Threshold Alerts** (Configurable)
+   - Trigger: Service cost > configured threshold (50%, 80%, 100%, custom)
+   - Severity: info/warning/critical (based on threshold)
+   - Channels: Customizable per threshold (Teams + Email)
+   - Frequency: once/daily/hourly
    - Example: "⚠️ payment-service used 85% of monthly budget ($4,250 / $5,000)"
 
-2. **Budget Exceeded Alert**
+2. **Budget Exceeded Alert** (Automatic)
    - Trigger: Service cost > 100% of monthly budget
    - Severity: Critical
-   - Action: Notify team + platform team
+   - Channels: Team + Finance + Leadership
+   - Action: Auto-escalate, optional deployment block
    - Example: "🚨 payment-service exceeded monthly budget! ($5,500 / $5,000)"
 
-3. **Anomaly Alert**
-   - Trigger: Cost spike > 50% vs previous week
+3. **Anomaly Alert** (ML-Detected)
+   - Trigger: Cost spike > 50% vs previous week (configurable)
    - Severity: Warning
-   - Action: Notify team
-   - Example: "⚠️ payment-service cost increased 65% this week"
+   - Channels: Team channel + Team lead email
+   - Action: Notify team for investigation
+   - Example: "⚠️ payment-service cost increased 65% this week - potential issue?"
 
-4. **Optimization Alert**
-   - Trigger: Service running > 7 days with low utilization
+4. **Optimization Alert** (AI-Generated)
+   - Trigger: Service running > 7 days with low utilization (<50%)
    - Severity: Info
-   - Action: Send recommendation
-   - Example: "💡 payment-service can be right-sized to save $120/month"
+   - Channels: Team channel (non-urgent)
+   - Action: Send recommendation with one-click apply
+   - Example: "💡 payment-service can be right-sized from large→medium to save $120/month"
+
+5. **Forecast Alert** (Predictive)
+   - Trigger: Projected to exceed budget in next 7 days
+   - Severity: Warning
+   - Channels: Team channel + Finance email
+   - Action: Proactive notification
+   - Example: "📈 payment-service projected to exceed budget by Nov 20 based on current trend"
+
+### Alert Routing Configuration
+
+**Team-Level Alert Configuration**:
+
+```yaml
+# catalog/teams.yaml (extended)
+teams:
+  - name: payments-team
+    displayName: Payments Team
+    
+    # Alert notification channels
+    notifications:
+      teams:
+        primary: "#team-payments"           # Primary channel
+        secondary: "#platform-finops"      # CC for budget alerts
+        critical: "#platform-leadership"   # Escalation channel
+      
+      email:
+        primary: ["team-lead@company.com"]
+        secondary: ["finance-team@company.com"]
+        critical: ["vp-engineering@company.com"]
+      
+      pagerduty:
+        serviceId: "pd-payments-team"
+        escalationPolicy: "critical-only"  # Only for critical alerts
+    
+    # Alert preferences
+    alertPreferences:
+      budgetAlerts: true
+      anomalyAlerts: true
+      optimizationAlerts: true
+      quietHours:
+        enabled: true
+        start: "20:00"  # No non-critical alerts after 8 PM
+        end: "08:00"
+        timezone: "Europe/London"
+```
+
+**Service-Level Override**:
+
+```yaml
+# catalog/services.yaml
+services:
+  - name: payment-service
+    team: payments-team
+    cost:
+      alerts:
+        # Override team defaults for this critical service
+        - threshold: 0.9
+          severity: critical
+          channels:
+            teams: ["#team-payments", "#sre-oncall"]  # Add SRE
+            email: ["team-lead@company.com", "sre-oncall@company.com"]
+          actions:
+            createIncident: true  # Auto-page SRE team
+```
 
 **Alert Delivery**:
 
