@@ -327,6 +327,8 @@ If any cost config missing:
 
 **Trigger**: When catalog is merged to main branch
 
+#### Option 1: Cloud Functions (Recommended for GCP-Only Environments)
+
 ```
 Workflow:
 ├── Cloud Function: budget-sync triggered
@@ -341,6 +343,331 @@ Workflow:
     │   └─ Table: cost_analytics.service_alert_config
     └── Result: Service immediately monitored in Apptio
 ```
+
+**Characteristics**:
+- ✅ Minimal custom code (serverless)
+- ✅ Event-driven (fast sync)
+- ✅ No operational overhead
+- ❌ GCP-only (cannot use in multi-cloud)
+- ❌ Cold start latency (1-2 seconds)
+- ❌ Requires GCP IAM configuration
+
+---
+
+#### Option 2: Kubernetes Native Service (Alternative for Multi-Cloud or When Cloud Functions Not Available)
+
+**Architecture**: Dedicated Kubernetes service that continuously syncs catalog to Apptio
+
+```
+Workflow:
+├── Apptio Sync Service (Pod in platform-system namespace)
+│   ├── Config Watcher (every 5 minutes)
+│   │   ├─ Poll Git for catalog changes
+│   │   ├─ Parse YAML configuration
+│   │   └─ Detect service additions/updates
+│   ├── Sync Logic
+│   │   ├─ For each service with cost enabled:
+│   │   │   ├─ Create or update budgets in Apptio
+│   │   │   ├─ Configure alert thresholds
+│   │   │   ├─ Set notification channels
+│   │   │   └─ Map cost centers
+│   │   └─ Store sync state in ConfigMap
+│   └── Error Handling
+│       ├─ Exponential backoff for retries
+│       ├─ Prometheus metrics for failures
+│       └─ Log output to standard container logs
+└── State Stored: ConfigMap (last-sync-time, sync-status, synced-services-count)
+```
+
+**Characteristics**:
+- ✅ Multi-cloud compatible (any Kubernetes)
+- ✅ Always running (no cold start)
+- ✅ Full control (can customize easily)
+- ✅ Better observability (standard logs + Prometheus metrics)
+- ✅ Easier testing (deploy locally)
+- ❌ Slight operational overhead (basic deployment monitoring)
+- ❌ Continuous resource usage (~100m CPU, 256Mi RAM)
+
+**When to Use Option 2**:
+- Multi-cloud environments (AWS, Azure, on-prem)
+- Cannot use GCP Cloud Functions
+- Need tighter observability and control
+- Want infrastructure-as-code for sync service
+- GitOps-aligned entire platform
+
+---
+
+#### Deployment: Option 2 (Kubernetes Service)
+
+**1. Create Kustomize Component**:
+
+```bash
+mkdir -p kustomize/components/apptio-sync
+```
+
+**2. Service Definition** (`kustomize/components/apptio-sync/service.yaml`):
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: apptio-sync
+  namespace: platform-system
+spec:
+  selector:
+    app: apptio-sync
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
+    - port: 9090
+      targetPort: 9090
+      name: prometheus
+```
+
+**3. Deployment** (`kustomize/components/apptio-sync/deployment.yaml`):
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apptio-sync
+  namespace: platform-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apptio-sync
+  template:
+    metadata:
+      labels:
+        app: apptio-sync
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+    spec:
+      serviceAccountName: apptio-sync
+      containers:
+      - name: apptio-sync
+        image: platform-next:apptio-sync-v1
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 9090
+          name: prometheus
+        env:
+        - name: GIT_REPO_URL
+          value: "https://github.com/your-org/platform-next.git"
+        - name: GIT_BRANCH
+          value: "main"
+        - name: GIT_POLL_INTERVAL_SECONDS
+          value: "300"  # 5 minutes
+        - name: CATALOG_PATH
+          value: "kustomize/catalog/services.yaml"
+        - name: APPTIO_API_URL
+          value: "https://your-apptio-instance.apptio.com/api"
+        - name: APPTIO_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: apptio-credentials
+              key: api-key
+        - name: SYNC_STATE_CONFIGMAP
+          value: "apptio-sync-state"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+```
+
+**4. RBAC** (`kustomize/components/apptio-sync/role.yaml`):
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: apptio-sync
+  namespace: platform-system
+rules:
+# Read ConfigMap for sync state
+- apiGroups: [""]
+  resources: ["configmaps"]
+  resourceNames: ["apptio-sync-state"]
+  verbs: ["get", "update"]
+# Read secrets for API credentials
+- apiGroups: [""]
+  resources: ["secrets"]
+  resourceNames: ["apptio-credentials"]
+  verbs: ["get"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: apptio-sync
+  namespace: platform-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: apptio-sync
+  namespace: platform-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: apptio-sync
+subjects:
+- kind: ServiceAccount
+  name: apptio-sync
+  namespace: platform-system
+```
+
+**5. Secrets** (`kustomize/components/apptio-sync/secrets.yaml`):
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: apptio-credentials
+  namespace: platform-system
+type: Opaque
+stringData:
+  api-key: "YOUR_APPTIO_API_KEY"
+  api-secret: "YOUR_APPTIO_SECRET"
+```
+
+**6. State ConfigMap** (`kustomize/components/apptio-sync/configmap.yaml`):
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apptio-sync-state
+  namespace: platform-system
+data:
+  last_sync_time: "2025-01-01T00:00:00Z"
+  last_sync_status: "success"
+  synced_services_count: "0"
+```
+
+**7. Kustomization** (`kustomize/components/apptio-sync/kustomization.yaml`):
+
+```yaml
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+- service.yaml
+- deployment.yaml
+- role.yaml
+- rolebinding.yaml
+- serviceaccount.yaml
+- secrets.yaml
+- configmap.yaml
+
+commonLabels:
+  component: apptio-sync
+  managed-by: kustomize
+```
+
+**8. Deploy**:
+
+```bash
+kubectl apply -k kustomize/components/apptio-sync/
+```
+
+**9. Verify**:
+
+```bash
+kubectl logs -f deployment/apptio-sync -n platform-system
+curl http://localhost:8080/healthz  # (port-forward to test)
+```
+
+---
+
+#### Monitoring Option 2 (Kubernetes Service)
+
+**Prometheus Alerts** (`kustomize/monitoring/apptio-sync-rules.yaml`):
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: apptio-sync
+spec:
+  groups:
+  - name: apptio-sync
+    interval: 30s
+    rules:
+    - alert: ApptioSyncFailure
+      expr: increase(apptio_sync_failures_total[5m]) > 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Apptio sync service failed"
+
+    - alert: ApptioSyncDelayed
+      expr: (time() - apptio_sync_last_success_timestamp) > 900
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Last sync was {{ $value | humanizeDuration }} ago"
+
+    - alert: ApptioApiError
+      expr: rate(apptio_api_errors_total[5m]) > 0.1
+      for: 5m
+      labels:
+        severity: warning
+```
+
+---
+
+#### Comparison: Cloud Functions vs Kubernetes Service
+
+| Aspect | Cloud Functions | Kubernetes Service |
+|--------|-----------------|-------------------|
+| **Setup** | Simple (GCP UI) | Moderate (Kustomize) |
+| **Multi-cloud** | GCP only | Any Kubernetes |
+| **Cold Start** | 1-2 sec | Instant |
+| **Sync Frequency** | Event-driven (fast) | Polling (5-10 min) |
+| **Observability** | Cloud Logging | Container logs + Prometheus |
+| **Testing** | Harder (GCP env) | Easier (local K8s) |
+| **Customization** | Limited | Full control |
+| **Operational Overhead** | Minimal | Minimal (~100m CPU) |
+| **GitOps Alignment** | Separate | Infrastructure as Code |
+| **Cost** | Pay per invocation | Minimal pod resources |
+
+---
+
+#### Decision: Which Option?
+
+**Use Cloud Functions (Option 1) if**:
+- GCP-only environment
+- Want minimal operational overhead
+- Event-driven sync is important
+- Already using Cloud Functions extensively
+
+**Use Kubernetes Service (Option 2) if**:
+- Multi-cloud setup (AWS, Azure, on-prem)
+- Cannot use Cloud Functions
+- Want better observability and testing
+- Prefer infrastructure-as-code for everything
+- Need full control over sync logic
 
 ---
 
@@ -1063,7 +1390,55 @@ Typical timeline:
 
 ---
 
-## 11. Related Documentation
+## 11. Apptio Sync Service Implementation Details
+
+### 11.1 Option 2 Complete Example: Building the Kubernetes Service
+
+For teams implementing the Kubernetes native service (Option 2), here's a complete implementation path:
+
+1. **Create the sync service code** (Python/Go/Node.js)
+   - Parse YAML catalog
+   - Call Apptio REST API
+   - Handle retries and errors
+   - Export Prometheus metrics
+
+2. **Build Docker image**
+   ```bash
+   docker build -t your-registry/apptio-sync:v1 services/apptio-sync/
+   docker push your-registry/apptio-sync:v1
+   ```
+
+3. **Deploy via Kustomize** (use manifests from Section 1.5 Option 2)
+   ```bash
+   kubectl apply -k kustomize/components/apptio-sync/
+   ```
+
+4. **Monitor health**
+   ```bash
+   kubectl logs -f deployment/apptio-sync -n platform-system
+   kubectl port-forward svc/apptio-sync 8080:8080 -n platform-system
+   curl http://localhost:8080/healthz
+   ```
+
+### 11.2 Troubleshooting Apptio Sync (Both Options)
+
+**Sync not running**:
+- Option 1 (Cloud Functions): Check Cloud Function logs in GCP console
+- Option 2 (K8s Service): Check pod logs with `kubectl logs -f deployment/apptio-sync -n platform-system`
+
+**Budgets not appearing in Apptio**:
+- Verify service has `cost.enabled: true` in catalog
+- Check API credentials (Option 2: verify secret exists)
+- Verify cost center exists in Apptio
+- Check for API errors in logs
+
+**Sync delays**:
+- Option 1: Expected 2-5 minutes after merge
+- Option 2: Check git poll interval (default 5 minutes)
+
+---
+
+## 12. Related Documentation
 
 - **Architecture Decision**: [00_Architecture_decision.md](./00_Architecture_decision.md)
 - **Cost Management Design**: [04_COST_MANAGEMENT_DESIGN.md](./04_COST_MANAGEMENT_DESIGN.md)
@@ -1073,7 +1448,7 @@ Typical timeline:
 
 ---
 
-## 12. Summary
+## 13. Summary
 
 **Cost metrics are integrated into Platform-Next at the onboarding stage, not added afterward:**
 
@@ -1082,6 +1457,8 @@ Typical timeline:
 3. **CI/CD Gates**: PRs blocked without cost config
 4. **Code Generation** (Kustomize): Labels injected automatically
 5. **Auto-Setup** (Apptio): Budgets created without manual intervention
+   - **Option 1**: Cloud Functions (GCP event-driven)
+   - **Option 2**: Kubernetes native service (multi-cloud compatible)
 
 **Result**: From day 1, every service has:
 - ✅ Defined budgets
@@ -1094,6 +1471,6 @@ Typical timeline:
 
 ---
 
-**Document Version**: 1.0
+**Document Version**: 2.0
 **Last Updated**: 2025-11-15
-**Status**: ACTIVE
+**Status**: ACTIVE (Added Kubernetes Service Option for Multi-Cloud)

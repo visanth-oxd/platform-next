@@ -1,0 +1,170 @@
+# Prometheus Scrape Configuration for Cost Integration Metrics
+# File: prometheus/cost-metrics-scrape.yml
+# Purpose: Define how Prometheus collects metrics from cost-related systems
+
+global:
+  scrape_interval: 1m
+  scrape_timeout: 10s
+  evaluation_interval: 1m
+  external_labels:
+    cluster: 'production'
+    platform: 'platform-next'
+
+# Alert Manager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+# Load alert rules
+rule_files:
+  - 'prometheus/alerts/cost-critical.yml'
+  - 'prometheus/alerts/cost-warning.yml'
+  - 'prometheus/alerts/cost-slo.yml'
+
+scrape_configs:
+  # ========================================
+  # COST INTEGRATION METRICS
+  # ========================================
+  
+  # Cloud Function: Budget Sync Metrics
+  - job_name: 'cost-budget-sync'
+    static_configs:
+      - targets: ['budget-sync-metrics-exporter:9090']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'budget-sync'
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'budget_sync_.*'
+        action: keep
+  
+  # Manifest Generation: Cost Label Injection
+  - job_name: 'cost-label-injection'
+    static_configs:
+      - targets: ['manifest-gen-metrics:9090']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'manifest-generation'
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'manifest_.*cost.*'
+        action: keep
+  
+  # GCP Billing Export Metrics
+  - job_name: 'gcp-billing-export'
+    static_configs:
+      - targets: ['gcp-billing-metrics:9090']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'gcp-billing'
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'gcp_billing_.*'
+        action: keep
+  
+  # Apptio Integration Metrics
+  - job_name: 'apptio-integration'
+    static_configs:
+      - targets: ['apptio-metrics-exporter:9090']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'apptio'
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'apptio_.*'
+        action: keep
+  
+  # GitHub Actions: Cost Validation Metrics
+  - job_name: 'github-cost-validation'
+    honor_labels: true
+    static_configs:
+      - targets: ['prometheus-pushgateway:9091']
+    scrape_interval: 5m
+    metric_relabel_configs:
+      - source_labels: [job]
+        regex: 'cost_validation'
+        action: keep
+  
+  # Cost Label Validation (Daily Job)
+  - job_name: 'cost-label-validation'
+    honor_labels: true
+    static_configs:
+      - targets: ['prometheus-pushgateway:9091']
+    scrape_interval: 5m
+    metric_relabel_configs:
+      - source_labels: [job]
+        regex: 'cost_label_validation'
+        action: keep
+  
+  # Cost Config Consistency Check (Daily Job)
+  - job_name: 'cost-config-consistency'
+    honor_labels: true
+    static_configs:
+      - targets: ['prometheus-pushgateway:9091']
+    scrape_interval: 5m
+    metric_relabel_configs:
+      - source_labels: [job]
+        regex: 'cost_config_consistency'
+        action: keep
+  
+  # Alert Response Monitoring
+  - job_name: 'alert-response-metrics'
+    static_configs:
+      - targets: ['alert-monitoring-service:9090']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'alert-monitoring'
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'alert_.*'
+        action: keep
+  
+  # Cost vs Budget Metrics
+  - job_name: 'cost-budget-tracking'
+    honor_labels: true
+    static_configs:
+      - targets: ['prometheus-pushgateway:9091']
+    scrape_interval: 1h
+    metric_relabel_configs:
+      - source_labels: [job]
+        regex: 'cost_budget_tracking'
+        action: keep
+  
+  # Financial Metrics (Daily)
+  - job_name: 'financial-metrics'
+    honor_labels: true
+    static_configs:
+      - targets: ['prometheus-pushgateway:9091']
+    scrape_interval: 1h
+    metric_relabel_configs:
+      - source_labels: [job]
+        regex: 'financial_metrics'
+        action: keep
+  
+  # ========================================
+  # EXISTING PROMETHEUS TARGETS (Keep)
+  # ========================================
+  
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  
+  - job_name: 'kubernetes-apiservers'
+    kubernetes_sd_configs:
+      - role: endpoints
+    scheme: https
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+        action: keep
+        regex: default;kubernetes;https
+  
+  # Add other existing scrape targets as needed...

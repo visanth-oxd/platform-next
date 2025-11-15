@@ -1,0 +1,341 @@
+# Prometheus Alert Rules: CRITICAL Cost Integration Alerts
+# File: prometheus/alerts/cost-critical.yml
+# Purpose: Define critical alerts that require immediate action
+
+groups:
+  - name: cost-integration-critical
+    interval: 1m
+    rules:
+
+      # ========================================
+      # SYSTEM HEALTH ALERTS
+      # ========================================
+
+      - alert: BudgetSyncFailureRate
+        expr: |
+          (
+            rate(budget_sync_total{status="failure"}[1h]) /
+            (rate(budget_sync_total{status="success"}[1h]) + rate(budget_sync_total{status="failure"}[1h]))
+          ) > 0.05
+        for: 15m
+        labels:
+          severity: critical
+          component: budget-sync
+          platform: platform-next
+        annotations:
+          summary: "Budget sync failure rate is {{ $value | humanizePercentage }}"
+          description: |
+            Budget sync to Apptio is failing at {{ $value | humanizePercentage }} rate.
+            This means new services and budget updates are not reaching Apptio.
+          dashboard: "https://grafana/d/cost-integration-health"
+          runbook: "https://wiki/runbooks/budget-sync-failure"
+          action: "Check Cloud Function logs, verify Apptio API connectivity"
+
+      - alert: BudgetSyncNotRunning
+        expr: |
+          (time() - budget_sync_last_timestamp) > 21600  # 6 hours
+        for: 15m
+        labels:
+          severity: critical
+          component: budget-sync
+          platform: platform-next
+        annotations:
+          summary: "Budget sync has not run for 6+ hours"
+          description: |
+            Budget sync Cloud Function last completed {{ (time() - budget_sync_last_timestamp) | humanizeDuration }} ago.
+            New services and budget updates are not being synced to Apptio.
+          action: "Check Cloud Scheduler job status, verify Cloud Function exists"
+
+      - alert: CostLabelInjectionFailure
+        expr: |
+          manifests_with_complete_cost_config_ratio < 0.995
+        for: 30m
+        labels:
+          severity: critical
+          component: manifest-generation
+          platform: platform-next
+        annotations:
+          summary: "{{ $value | humanizePercentage }} of manifests missing cost labels"
+          description: |
+            {{ $value | humanizePercentage }} of generated manifests do not have complete cost labels.
+            This breaks cost tracking and blocks deployments.
+          impact: |
+            - Cost tracking cannot begin until labels are present
+            - Deployment validation will fail
+            - Services cannot be traced to cost centers
+          action: "Review manifest generation logs, check Kustomize configuration"
+
+      - alert: CostDataFreshnessCritical
+        expr: |
+          max(gcp_billing_cost_data_age_hours) > 48
+        for: 1h
+        labels:
+          severity: critical
+          component: gcp-billing
+          platform: platform-next
+        annotations:
+          summary: "Cost data is {{ $value | humanize }} hours old"
+          description: |
+            GCP billing data has not been exported in {{ $value | humanize }} hours.
+            Costs are not visible in Apptio for the most recent deployments.
+          impact: |
+            - Teams cannot see current month-to-date spend
+            - Budget tracking is stale
+            - Cost anomalies go undetected
+          action: "Check GCP Billing export job status, verify BigQuery dataset"
+
+      # ========================================
+      # APPTIO API ALERTS
+      # ========================================
+
+      - alert: ApptioApiErrorRate
+        expr: |
+          (
+            rate(apptio_api_request_total{status=~"5.."}[5m]) /
+            rate(apptio_api_request_total[5m])
+          ) > 0.01
+        for: 15m
+        labels:
+          severity: critical
+          component: apptio
+          platform: platform-next
+        annotations:
+          summary: "Apptio API error rate is {{ $value | humanizePercentage }}"
+          description: |
+            Apptio API is returning errors at {{ $value | humanizePercentage }} rate.
+            New budget and alert configurations may not be reaching Apptio.
+          action: "Check Apptio status page, verify API credentials"
+
+      - alert: ApptioApiTimeout
+        expr: |
+          histogram_quantile(0.95, apptio_api_request_duration_seconds) > 30
+        for: 15m
+        labels:
+          severity: critical
+          component: apptio
+          platform: platform-next
+        annotations:
+          summary: "Apptio API 95th percentile latency is {{ $value | humanizeDuration }}"
+          description: |
+            Apptio API is responding very slowly (P95: {{ $value | humanizeDuration }}).
+            Budget sync may be timing out and failing.
+          action: "Check Apptio performance, verify network connectivity"
+
+      # ========================================
+      # CONFIG VALIDATION ALERTS
+      # ========================================
+
+      - alert: CostConfigValidationBypass
+        expr: |
+          rate(cost_validation_failures_total[24h]) > 0
+        for: 1m
+        labels:
+          severity: critical
+          component: ci-cd
+          platform: platform-next
+        annotations:
+          summary: "Invalid cost configs are being merged ({{ $value }} PRs in 24h)"
+          description: |
+            {{ $value }} PRs with invalid cost configurations were merged in the last 24 hours.
+            This violates the mandatory cost config policy.
+          impact: |
+            - Services deployed without proper cost tracking
+            - Budget accountability broken
+            - Cost allocation fails
+          action: "Review merged PRs, identify validation bypass, enforce CI checks"
+
+      - alert: CostCenterValidationFailure
+        expr: |
+          rate(cost_validation_failures_total{reason="invalid_cost_center"}[1h]) > 0
+        for: 30m
+        labels:
+          severity: critical
+          component: ci-cd
+          platform: platform-next
+        annotations:
+          summary: "Cost center validation is failing"
+          description: |
+            Services are being created with invalid cost centers (non-existent in Apptio).
+            This prevents cost allocation and chargeback.
+          action: "Check cost center validation script, verify Apptio cost center list"
+
+      # ========================================
+      # DATA CONSISTENCY ALERTS
+      # ========================================
+
+      - alert: CatalogApptioMismatch
+        expr: |
+          cost_config_consistency_ratio < 0.95
+        for: 1h
+        labels:
+          severity: critical
+          component: data-consistency
+          platform: platform-next
+        annotations:
+          summary: "Catalog and Apptio are out of sync ({{ $value | humanizePercentage }} match)"
+          description: |
+            Only {{ $value | humanizePercentage }} of budget configurations in the catalog match what's in Apptio.
+            This indicates sync failures or manual changes in Apptio.
+          impact: |
+            - Some services missing budgets in Apptio
+            - Some services have incorrect budget amounts
+            - Alerts may not fire at correct thresholds
+          action: "Run cost config consistency check, identify mismatches, resync budgets"
+
+      - alert: BudgetMismatch
+        expr: |
+          count(
+            abs(
+              (apptio_budget_amount - apptio_budget_amount_from_catalog) /
+              apptio_budget_amount_from_catalog
+            ) > 0.05
+          ) > 0
+        for: 30m
+        labels:
+          severity: critical
+          component: data-consistency
+          platform: platform-next
+        annotations:
+          summary: "Budget amounts differ between catalog and Apptio"
+          description: |
+            One or more services have different budget amounts in the catalog vs Apptio.
+            This indicates the sync did not complete successfully.
+          action: "Verify last sync succeeded, manually update Apptio budgets if needed"
+
+      # ========================================
+      # COST CONTROL ALERTS
+      # ========================================
+
+      - alert: ServicesCostSpike
+        expr: |
+          (
+            count(apptio_budget_spend_percent > 100) /
+            count(apptio_budget_spend_percent)
+          ) > 0.10  # > 10% of services over budget
+        for: 30m
+        labels:
+          severity: critical
+          component: cost-control
+          platform: platform-next
+        annotations:
+          summary: "{{ $value | humanizePercentage }} of services have exceeded budget"
+          description: |
+            {{ $value | humanizePercentage }} ({{ $value | humanizePercentage }}) of services are currently over budget.
+            This indicates a widespread cost control issue.
+          impact: |
+            - Multiple services consuming more resources than budgeted
+            - Total infrastructure cost spike
+            - May be due to security incident, misconfiguration, or DDoS
+          action: "Investigate services over budget, check for resource anomalies"
+
+      # ========================================
+      # ALERTING SYSTEM ALERTS
+      # ========================================
+
+      - alert: AlertDeliveryFailure
+        expr: |
+          (
+            rate(apptio_alert_delivery_failures_total[1h]) /
+            rate(apptio_alerts_total[1h])
+          ) > 0.05
+        for: 15m
+        labels:
+          severity: critical
+          component: alerting
+          platform: platform-next
+        annotations:
+          summary: "Alert delivery is failing at {{ $value | humanizePercentage }} rate"
+          description: |
+            Budget alerts are failing to be delivered at {{ $value | humanizePercentage }} rate.
+            Teams are not being notified when costs approach limits.
+          impact: |
+            - Teams unaware of cost anomalies
+            - Budget overruns go unnoticed
+            - Cost control effectiveness reduced
+          action: "Check Teams/email integration, verify notification service status"
+
+      # ========================================
+      # MANIFEST VALIDATION ALERTS
+      # ========================================
+
+      - alert: ManifestGenerationFailure
+        expr: |
+          rate(manifest_generation_total{status="failure"}[1h]) > 0
+        for: 15m
+        labels:
+          severity: critical
+          component: manifest-generation
+          platform: platform-next
+        annotations:
+          summary: "Manifest generation is failing"
+          description: |
+            Manifest generation for cost-tracked services is failing.
+            This blocks deployment and cost tracking setup.
+          action: "Review manifest generation logs, check Kustomize configuration"
+
+      # ========================================
+      # INTEGRATION ALERTS
+      # ========================================
+
+      - alert: CostIntegrationSystemDown
+        expr: |
+          up{job=~"budget_sync|apptio_integration|cost_label_injection"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          component: system-health
+          platform: platform-next
+        annotations:
+          summary: "Cost integration service {{ $labels.job }} is down"
+          description: |
+            The {{ $labels.job }} service is not responding to scrape requests.
+            Cost tracking pipeline is broken.
+          action: "Check service status, restart if needed, review logs"
+
+---
+
+# Recording rules for commonly used metric aggregations
+- name: cost-integration-recording-rules
+  interval: 1m
+  rules:
+
+    # Budget burn-down calculation
+    - record: apptio:budget_remaining_percent
+      expr: |
+        100 - apptio_budget_spend_percent
+
+    # Days to overrun calculation
+    - record: apptio:days_to_overrun
+      expr: |
+        (
+          apptio_budget_days_remaining *
+          (100 / apptio_budget_spend_percent)
+        ) - apptio_budget_days_remaining
+
+    # High-level cost metrics
+    - record: cost:total_monthly
+      expr: |
+        sum(cost_budget_monthly)
+
+    - record: cost:total_spend_mtd
+      expr: |
+        sum(cost_spend_mtd)
+
+    - record: cost:total_variance_percent
+      expr: |
+        (sum(cost_spend_mtd) - sum(cost_budget_monthly)) / sum(cost_budget_monthly) * 100
+
+    # Alert response metrics
+    - record: alert:acknowledgment_ratio:by_severity
+      expr: |
+        sum by (severity) (
+          rate(alert_acknowledgment_total{acknowledged="true"}[24h])
+        ) /
+        sum by (severity) (
+          rate(alert_acknowledgment_total[24h])
+        )
+
+    # Cost label coverage
+    - record: manifest:cost_label_coverage_percent
+      expr: |
+        (manifests_with_complete_cost_config / manifest_generation_total{status="success"}) * 100

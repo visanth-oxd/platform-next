@@ -1,0 +1,401 @@
+# Prometheus Alert Rules: WARNING Cost Integration Alerts
+# File: prometheus/alerts/cost-warning.yml
+# Purpose: Define warning alerts requiring attention within 1 hour
+
+groups:
+  - name: cost-integration-warning
+    interval: 5m
+    rules:
+
+      # ========================================
+      # PERFORMANCE WARNINGS
+      # ========================================
+
+      - alert: BudgetSyncSlowDown
+        expr: |
+          histogram_quantile(0.95, budget_sync_duration_seconds{status="success"}) > 30
+        for: 5m
+        labels:
+          severity: warning
+          component: budget-sync
+          platform: platform-next
+        annotations:
+          summary: "Budget sync 95th percentile latency is {{ $value | humanizeDuration }}"
+          description: |
+            Budget sync operations are taking longer than expected (P95: {{ $value | humanizeDuration }}).
+            May indicate catalog complexity or Apptio API performance issues.
+          recommendation: "Review catalog size, optimize sync query, check Apptio performance"
+
+      - alert: ManifestGenerationSlowDown
+        expr: |
+          histogram_quantile(0.95, manifest_generation_duration_seconds) > 30
+        for: 5m
+        labels:
+          severity: warning
+          component: manifest-generation
+          platform: platform-next
+        annotations:
+          summary: "Manifest generation 95th percentile latency is {{ $value | humanizeDuration }}"
+          description: |
+            Manifest generation is taking longer than expected (P95: {{ $value | humanizeDuration }}).
+            May slow down deployment CI/CD pipelines.
+          recommendation: "Optimize Kustomize configuration, check build system resources"
+
+      - alert: ApptioApiLatencyHigh
+        expr: |
+          histogram_quantile(0.95, apptio_api_request_duration_seconds) > 10
+        for: 10m
+        labels:
+          severity: warning
+          component: apptio
+          platform: platform-next
+        annotations:
+          summary: "Apptio API 95th percentile latency is {{ $value | humanizeDuration }}"
+          description: |
+            Apptio API is responding slowly (P95: {{ $value | humanizeDuration }}).
+            Budget sync operations may timeout if trend continues.
+          recommendation: "Monitor Apptio performance, check for API rate limiting"
+
+      - alert: CostDataLatency
+        expr: |
+          max(gcp_billing_cost_data_age_hours) > 24
+        for: 2h
+        labels:
+          severity: warning
+          component: gcp-billing
+          platform: platform-next
+        annotations:
+          summary: "Cost data is {{ $value | humanize }} hours old"
+          description: |
+            GCP billing export is running late ({{ $value | humanize }} hours).
+            Cost visibility in Apptio is delayed.
+          recommendation: "Check GCP Billing export schedule, verify BigQuery"
+
+      # ========================================
+      # VALIDATION WARNINGS
+      # ========================================
+
+      - alert: CostLabelInjectionQualityDegradation
+        expr: |
+          manifests_with_complete_cost_config_ratio < 0.999
+        for: 10m
+        labels:
+          severity: warning
+          component: manifest-generation
+          platform: platform-next
+        annotations:
+          summary: "{{ (100 - $value*100) | humanize }}% of manifests missing cost labels"
+          description: |
+            {{ (100 - $value*100) | humanize }}% of manifests are missing some cost labels.
+            While deployments may succeed, cost tracking quality is reduced.
+          impact: "Some deployed resources may not be properly attributed to services"
+          recommendation: "Review manifest generation logs for specific services"
+
+      - alert: CostConfigValidationWarnings
+        expr: |
+          rate(cost_validation_warnings_total[1h]) > 5
+        for: 30m
+        labels:
+          severity: warning
+          component: ci-cd
+          platform: platform-next
+        annotations:
+          summary: "{{ $value }} cost validation warnings in last hour"
+          description: |
+            {{ $value }} cost configuration validation warnings detected.
+            These are non-fatal but indicate inconsistencies.
+          recommendation: "Review validation warnings, update configurations as needed"
+
+      - alert: BudgetRangeViolation
+        expr: |
+          rate(cost_validation_failures_total{reason="budget_out_of_range"}[1h]) > 0
+        for: 30m
+        labels:
+          severity: warning
+          component: ci-cd
+          platform: platform-next
+        annotations:
+          summary: "Budget validation rejections due to out-of-range values"
+          description: |
+            Some services are configured with budgets outside acceptable ranges.
+            These require manual override or Finance approval.
+          recommendation: "Review rejected PRs, adjust budgets or request exception"
+
+      # ========================================
+      # COST CONTROL WARNINGS
+      # ========================================
+
+      - alert: HighServicesApproachingBudget
+        expr: |
+          count(
+            apptio_budget_spend_percent > 80 and
+            apptio_budget_spend_percent <= 100
+          ) > 0
+        for: 30m
+        labels:
+          severity: warning
+          component: cost-control
+          platform: platform-next
+        annotations:
+          summary: "{{ $value | humanize }} services are 80-100% through budget"
+          description: |
+            {{ $value | humanize }} services have spent 80-100% of their monthly budget.
+            Cost alerts should be firing; teams should be investigating.
+          recommendation: "Teams should optimize, request budget increase, or reduce scope"
+
+      - alert: CostVarianceHigh
+        expr: |
+          abs(cost_variance_percent) > 20
+        for: 2h
+        labels:
+          severity: warning
+          component: cost-control
+          platform: platform-next
+        annotations:
+          summary: "Service cost variance is {{ $value | humanize }}% from budget"
+          description: |
+            Service is projecting to end month {{ $value | humanize }}% {{ if $value > 0 }}over{{ else }}under{{ end }} budget.
+            Indicates either poor budget estimation or unexpected cost changes.
+          recommendation: "Team should review spend, adjust budget or cost optimization"
+
+      - alert: UnusualCostTrendDetected
+        expr: |
+          (
+            rate(cost_spend_mtd[7d]) /
+            rate(cost_spend_mtd[14d] offset 7d)
+          ) > 1.3  # > 30% week-over-week increase
+        for: 1d
+        labels:
+          severity: warning
+          component: cost-control
+          platform: platform-next
+        annotations:
+          summary: "{{ $value | humanizePercentage }} week-over-week increase detected"
+          description: |
+            Cost spend is increasing {{ $value | humanizePercentage }} week-over-week.
+            This may indicate a legitimate traffic increase or cost anomaly.
+          recommendation: "Review traffic metrics, identify cost drivers"
+
+      - alert: ServicesUnderUtilized
+        expr: |
+          (
+            rate(cost_spend_mtd[7d]) /
+            cost_budget_monthly
+          ) < 0.3  # Services using < 30% of budget
+        for: 7d
+        labels:
+          severity: warning
+          component: cost-optimization
+          platform: platform-next
+        annotations:
+          summary: "Service is {{ $value | humanizePercentage }} under budget"
+          description: |
+            Service has used only {{ $value | humanizePercentage }} of monthly budget over 7 days.
+            Indicates potential for right-sizing or resource optimization.
+          recommendation: "Review service requirements, consider downsizing resources"
+
+      # ========================================
+      # USER RESPONSE WARNINGS
+      # ========================================
+
+      - alert: LowAlertAcknowledgmentRateWarning
+        expr: |
+          alert_acknowledgment_ratio{severity="warning"} < 0.80
+        for: 1h
+        labels:
+          severity: warning
+          component: alerting
+          platform: platform-next
+        annotations:
+          summary: "Only {{ $value | humanizePercentage }} of warning alerts acknowledged"
+          description: |
+            {{ $value | humanizePercentage }} of warning-level cost alerts are being acknowledged.
+            Teams may not be monitoring cost alerts effectively.
+          impact: "Cost anomalies may go unaddressed"
+          recommendation: "Review alert configuration, train teams on cost monitoring"
+
+      - alert: SlowAlertResponse
+        expr: |
+          histogram_quantile(0.50, alert_time_to_response_seconds{severity="warning"}) > 3600  # > 1 hour
+        for: 30m
+        labels:
+          severity: warning
+          component: alerting
+          platform: platform-next
+        annotations:
+          summary: "Median alert response time is {{ $value | humanizeDuration }}"
+          description: |
+            Teams are taking {{ $value | humanizeDuration }} on average to respond to warning alerts.
+            This delays cost optimization and budget control.
+          recommendation: "Review alert configuration, improve team notification process"
+
+      - alert: AlertResolutionRate
+        expr: |
+          alert_resolution_ratio < 0.80
+        for: 3d
+        labels:
+          severity: warning
+          component: alerting
+          platform: platform-next
+        annotations:
+          summary: "Only {{ $value | humanizePercentage }} of cost issues are resolved"
+          description: |
+            Only {{ $value | humanizePercentage }} of cost anomalies detected by alerts are being resolved.
+            Many alerts may be acknowledged but not acted upon.
+          recommendation: "Investigate root causes, establish clear action items for alerts"
+
+      # ========================================
+      # DATA QUALITY WARNINGS
+      # ========================================
+
+      - alert: CostLabelFormatIssues
+        expr: |
+          rate(manifest_cost_label_format_invalid_total[1h]) > 0
+        for: 30m
+        labels:
+          severity: warning
+          component: manifest-generation
+          platform: platform-next
+        annotations:
+          summary: "{{ $value }} cost labels with invalid format"
+          description: |
+            {{ $value }} deployed resources have cost labels with invalid formats.
+            Cost allocation may fail or be inaccurate.
+          recommendation: "Review manifest generation, fix label format issues"
+
+      - alert: UnlabeledResourcesDetected
+        expr: |
+          (
+            gcp_billing_unlabeled_records_total /
+            (gcp_billing_labeled_records_total + gcp_billing_unlabeled_records_total)
+          ) > 0.01  # > 1% unlabeled
+        for: 2h
+        labels:
+          severity: warning
+          component: gcp-billing
+          platform: platform-next
+        annotations:
+          summary: "{{ $value | humanizePercentage }} of billing records are unlabeled"
+          description: |
+            {{ $value | humanizePercentage }} of GCP billing records lack cost labels.
+            These resources cannot be allocated to services or cost centers.
+          recommendation: "Investigate label injection failures, review resource creation"
+
+      # ========================================
+      # COVERAGE WARNINGS
+      # ========================================
+
+      - alert: ServicesCostConfigIncomplete
+        expr: |
+          (
+            count(services_with_incomplete_cost_config) /
+            count(services_total)
+          ) > 0.05  # > 5% of services
+        for: 1h
+        labels:
+          severity: warning
+          component: cost-config
+          platform: platform-next
+        annotations:
+          summary: "{{ $value | humanizePercentage }} of services missing cost config"
+          description: |
+            {{ $value | humanizePercentage }} ({{ $value | humanize }}) of services have incomplete cost configurations.
+            These services are not being tracked or budgeted.
+          recommendation: "Audit services, complete missing cost configurations"
+
+      # ========================================
+      # INFRASTRUCTURE WARNINGS
+      # ========================================
+
+      - alert: SyncJobHighFailureRate
+        expr: |
+          (
+            rate(budget_sync_total{status="failure"}[1h]) /
+            (rate(budget_sync_total{status="success"}[1h]) + rate(budget_sync_total{status="failure"}[1h]))
+          ) > 0.01  # > 1% failure rate
+        for: 1h
+        labels:
+          severity: warning
+          component: budget-sync
+          platform: platform-next
+        annotations:
+          summary: "Budget sync failure rate is {{ $value | humanizePercentage }}"
+          description: |
+            Budget sync operations are failing at {{ $value | humanizePercentage }} rate.
+            Some budget updates may not reach Apptio.
+          recommendation: "Review sync logs, check for transient API issues"
+
+      - alert: ApptioAPIRateLimiting
+        expr: |
+          rate(apptio_api_request_total{status="429"}[5m]) > 0
+        for: 15m
+        labels:
+          severity: warning
+          component: apptio
+          platform: platform-next
+        annotations:
+          summary: "Apptio API rate limiting detected"
+          description: |
+            Apptio API is returning 429 (Rate Limited) responses.
+            May cause sync delays if trend continues.
+          recommendation: "Reduce API call frequency, contact Apptio support if limits too low"
+
+      # ========================================
+      # CAPACITY WARNINGS
+      # ========================================
+
+      - alert: BudgetSyncCatalogGrowth
+        expr: |
+          (
+            budget_sync_services_count /
+            budget_sync_services_count offset 30d
+          ) > 1.5  # > 50% growth in 30 days
+        for: 1d
+        labels:
+          severity: warning
+          component: budget-sync
+          platform: platform-next
+        annotations:
+          summary: "Services count increased {{ $value | humanizePercentage }} in 30 days"
+          description: |
+            The number of services requiring budget sync has increased {{ $value | humanizePercentage }} in the last month.
+            May indicate need to optimize sync performance.
+          recommendation: "Monitor sync performance, optimize if needed"
+
+---
+
+# Summary recording rules for warning-level metrics
+- name: cost-integration-warning-rules
+  interval: 5m
+  rules:
+
+    - record: cost:services_at_risk_percent
+      expr: |
+        (
+          count(apptio_budget_spend_percent > 70) /
+          count(apptio_budget_spend_percent)
+        ) * 100
+
+    - record: cost:services_over_budget_percent
+      expr: |
+        (
+          count(apptio_budget_spend_percent > 100) /
+          count(apptio_budget_spend_percent)
+        ) * 100
+
+    - record: alert:average_response_time_seconds
+      expr: |
+        avg(alert_time_to_response_seconds)
+
+    - record: alert:median_response_time_seconds
+      expr: |
+        histogram_quantile(0.50, alert_time_to_response_seconds)
+
+    - record: cost:validation_pass_rate:by_type
+      expr: |
+        (
+          rate(github_pr_cost_validation_total{status="valid"}[24h])
+        ) /
+        (
+          rate(github_pr_cost_validation_total[24h])
+        ) * 100
