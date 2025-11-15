@@ -282,6 +282,60 @@ prod: Manual approval + change window + canary (risk mitigation)
 
 ---
 
+## Component 4: Mandatory Cost Metrics in Onboarding
+
+**Design Principle**: Cost management is not optional. Every service must have:
+- ✅ Budgets per environment (int, pre, prod)
+- ✅ Cost center for chargeback
+- ✅ Alert thresholds and channels
+- ✅ Cost owner assigned
+
+**Enforcement Mechanism**:
+
+**Layer 1 - UI (Backstage)**:
+- Mandatory cost section (cannot skip)
+- Real-time validation of inputs
+- Cost estimates shown based on size
+- Confirmation required before submission
+
+**Layer 2 - Schema (Catalog)**:
+- JSON schema requires cost fields
+- Services without cost config fail validation
+- CI/CD rejects PRs without cost config
+
+**Layer 3 - Generation (Kustomize)**:
+- Cost labels injected automatically
+- No way to generate manifests without cost labels
+- Script exits with error if cost config missing
+
+**Layer 4 - Automation (Apptio)**:
+- Budgets created automatically in Apptio
+- Alerts configured from catalog
+- No manual Apptio setup needed
+
+**Workflow**:
+1. Developer fills Backstage form (cost section MANDATORY)
+2. Form validates all cost fields
+3. PR created with services.yaml updated
+4. CI validates schema (will fail if cost missing)
+5. On merge: Apptio sync runs
+6. Budgets & alerts automatically configured
+7. Service ready with cost tracking active
+
+**Result**:
+- No "post-deployment cost setup"
+- Cost management from day 1
+- Apptio immediately tracks service costs
+- Teams get alerted on budget spikes
+- Cost owner can respond to anomalies
+
+**Benefits**:
+- FinOps culture from service creation
+- Cost accountability from day 1
+- Prevents cost surprises
+- Enables chargeback immediately
+- Apptio has complete visibility
+
 ## 4. Business Value & Benefits
 
 ### Quantified Benefits
