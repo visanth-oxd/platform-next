@@ -391,7 +391,517 @@ services:
 
 ---
 
-## 4. Cost Management Workflow
+## 3.4 Overrides: Service, Environment, Service+Environment
+
+Override mechanisms allow deviation from profile defaults at three levels:
+
+### 3.4.1 Service-Level Override (All Environments)
+
+Override budgets for a specific service across all environments:
+
+```yaml
+- name: legacy-payment-api
+  profile: public-api
+  size: large
+  costProfile: standard-api-cost
+  cost:
+    costCenter: "CC-12345"
+    businessUnit: "retail-banking"
+    costOwner: "alice@company.com"
+    
+    # Override budgets for THIS service only (all environments)
+    overrides:
+      service:
+        budgetMultiplier: 1.5         # Scale all env budgets by 1.5×
+        # Result: $1500, $4500, $9000 (instead of $1000, $3000, $6000)
+```
+
+### 3.4.2 Environment-Level Override (All Services)
+
+Override default profile settings for a specific environment across all services:
+
+```yaml
+# kustomize/catalog/cost-profiles.yaml
+
+costProfiles:
+  standard-api-cost:
+    description: "REST API with standard cost management"
+    
+    budgets:
+      int-stable:
+        base: 500
+        scaling: 1.0
+      pre-stable:
+        base: 1500
+        scaling: 1.33
+      prod:
+        base: 3000
+        scaling: 1.67
+    
+    alerts: # ... standard alerts
+    
+    optimization: # ... standard optimization
+    
+    # NEW: Environment-level overrides
+    environmentOverrides:
+      int-stable:
+        # No stricter alerts in int (testing environment)
+        alerts:
+          - name: "critical-100"
+            threshold: 100
+            channels:
+              teams: ["#platform-finops"]
+      
+      prod:
+        # Stricter monitoring in production
+        alerts:
+          - name: "warning-70"
+            threshold: 70
+            channels:
+              teams: ["#team-{service}", "#platform-finops"]
+              frequency: daily
+          
+          - name: "critical-90"
+            threshold: 90
+            channels:
+              teams: ["#team-{service}", "#platform-leadership"]
+              email: ["{costOwner}@company.com", "finance-operations@company.com"]
+              pagerduty: "on-call-engineering"
+              frequency: immediate
+          
+          - name: "spike-detection"
+            threshold: 110
+            channels:
+              teams: ["#platform-finops"]
+              frequency: once
+```
+
+When applied:
+- Services using this profile in int-stable get simple alerts
+- Services using this profile in prod get stricter alerts
+- Pre-stable uses default profile alerts
+
+### 3.4.3 Service + Environment-Level Override (Most Specific)
+
+Override budgets and alerts for a specific service in a specific environment:
+
+```yaml
+- name: payment-processor
+  profile: public-api
+  size: large
+  costProfile: standard-api-cost
+  cost:
+    costCenter: "CC-12345"
+    businessUnit: "retail-banking"
+    costOwner: "alice@company.com"
+    
+    # MOST SPECIFIC: Override for service + environment combo
+    overrides:
+      environment:
+        prod:
+          # Override budget multiplier for prod only
+          budgetMultiplier: 2.0       # Prod costs 2× profile base
+          
+          # Override specific alert thresholds for prod
+          alerts:
+            - name: "warning-70"
+              threshold: 70
+              channels:
+                teams: ["#team-payment-processor", "#platform-finops"]
+                frequency: daily
+            
+            - name: "critical-85"     # Different threshold than profile
+              threshold: 85
+              channels:
+                teams: ["#team-payment-processor", "#platform-leadership"]
+                email: ["{costOwner}@company.com"]
+                pagerduty: "on-call-payment-processor"
+                frequency: immediate
+        
+        int-stable:
+          # Different settings just for int-stable on this service
+          budgetMultiplier: 0.5       # Int is 50% of normal (dev environment)
+          alerts:
+            - name: "critical-100"
+              threshold: 100
+              channels:
+                teams: ["#team-payment-processor"]
+```
+
+---
+
+## 3.5 Override Precedence (Resolution Order)
+
+When calculating budgets and alerts, the system applies overrides in this order:
+
+```
+1. Profile defaults
+   ↓
+2. Profile environment overrides (if defined)
+   ↓
+3. Service-level overrides (all environments)
+   ↓
+4. Service + Environment overrides (most specific)
+   ↓
+5. Final configuration
+```
+
+**Example: payment-processor in production**
+
+```yaml
+# PROFILE LEVEL (cost-profiles.yaml)
+standard-api-cost:
+  budgets:
+    prod:
+      base: 3000
+      scaling: 1.67
+  alerts:
+    - threshold: 80
+
+# PROFILE ENVIRONMENT OVERRIDE
+environmentOverrides:
+  prod:
+    alerts:
+      - threshold: 70  # Stricter than default
+
+# SERVICE LEVEL OVERRIDE (overrides.service)
+cost:
+  overrides:
+    service:
+      budgetMultiplier: 1.5
+
+# SERVICE + ENVIRONMENT OVERRIDE (most specific - overrides.environment.prod)
+cost:
+  overrides:
+    environment:
+      prod:
+        budgetMultiplier: 2.0
+        alerts:
+          - threshold: 85
+
+# RESOLUTION (final applied config)
+Budget calc:
+  Base: $3000 × 1.67 × 2.0 (size large) × 2.0 (service+env override) = $20,040/month
+
+Alerts:
+  Use service+env override alerts (most specific wins)
+  → 85% threshold alert (not 70% from profile env override)
+```
+
+---
+
+## 3.6 Real-World Override Scenarios
+
+### Scenario 1: Unexpected Production Load
+
+**Situation**: Payment-processor hit unexpectedly high traffic in production
+
+**Current config**:
+```yaml
+- name: payment-processor
+  size: large
+  costProfile: standard-api-cost
+  # Results in $6000/month prod budget
+```
+
+**Problem**: Budget consistently exceeded
+
+**Solution**: Add service+env override without changing the profile
+
+```yaml
+- name: payment-processor
+  size: large
+  costProfile: standard-api-cost
+  cost:
+    costCenter: "CC-12345"
+    businessUnit: "retail-banking"
+    costOwner: "alice@company.com"
+    
+    overrides:
+      environment:
+        prod:
+          budgetMultiplier: 1.5       # $6000 × 1.5 = $9000/month
+          # Alert earlier due to higher spend
+          alerts:
+            - name: "warning-70"
+              threshold: 70
+              channels:
+                teams: ["#team-payment-processor", "#platform-finops"]
+                frequency: daily
+            
+            - name: "critical-90"
+              threshold: 90
+              channels:
+                teams: ["#team-payment-processor", "#platform-leadership"]
+                email: ["{costOwner}@company.com"]
+                pagerduty: "on-call-engineering"
+                frequency: immediate
+```
+
+### Scenario 2: Cost Center Consolidation
+
+**Situation**: Need to temporarily charge all int-stable services to a different cost center
+
+**Approach**: Add environment-level override to profile
+
+```yaml
+# cost-profiles.yaml
+
+costProfiles:
+  standard-api-cost:
+    description: "REST API with standard cost management"
+    
+    budgets:
+      int-stable:
+        base: 500
+        scaling: 1.0
+      # ... other envs
+    
+    # Override: All services in int-stable use different cost center
+    environmentOverrides:
+      int-stable:
+        allocation:
+          costCenter: "CC-SHARED-INT"  # Temporary shared cost center for testing
+```
+
+All services using `standard-api-cost` now charge to `CC-SHARED-INT` in int-stable.
+
+### Scenario 3: Critical Service Gets Stricter Monitoring
+
+**Situation**: Payment-processor is critical, needs tighter cost controls than standard profile
+
+**Solution**: Service-level and service+env overrides
+
+```yaml
+- name: payment-processor
+  size: large
+  costProfile: standard-api-cost
+  cost:
+    costCenter: "CC-12345"
+    businessUnit: "retail-banking"
+    costOwner: "alice@company.com"
+    
+    overrides:
+      service:
+        # Alert earlier across ALL environments
+        alerts:
+          - name: "warning-70"
+            threshold: 70
+            channels:
+              teams: ["#team-payment-processor", "#platform-finops"]
+              frequency: daily
+      
+      environment:
+        prod:
+          # Even stricter in production
+          budgetMultiplier: 1.2
+          alerts:
+            - name: "warning-60"
+              threshold: 60
+              channels:
+                teams: ["#team-payment-processor", "#platform-finops"]
+                frequency: immediate
+            
+            - name: "critical-85"
+              threshold: 85
+              channels:
+                teams: ["#team-payment-processor", "#platform-leadership"]
+                email: ["{costOwner}@company.com", "finance-cfo@company.com"]
+                pagerduty: "on-call-engineering"
+                frequency: immediate
+```
+
+### Scenario 4: Testing New Resource Size
+
+**Situation**: Migration from medium to large size, want to validate cost impact first
+
+```yaml
+- name: user-service
+  size: large                    # Changed from medium
+  costProfile: standard-api-cost
+  cost:
+    costCenter: "CC-12346"
+    businessUnit: "retail-banking"
+    costOwner: "bob@company.com"
+    
+    overrides:
+      environment:
+        int-stable:
+          budgetMultiplier: 0.5  # For testing, keep int-stable budget low
+        pre-stable:
+          budgetMultiplier: 1.0  # Pre-stable at expected size
+        # Prod follows normal calculation (large size × standard multiplier)
+```
+
+This allows gradual rollout:
+- Int: Test with reduced budget
+- Pre: Validate expected costs
+- Prod: Full cost if everything looks good
+
+---
+
+## 3.7 Override Schema
+
+### services.yaml Schema with Overrides
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "services": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "cost": {
+            "type": "object",
+            "properties": {
+              "costCenter": { "type": "string" },
+              "businessUnit": { "type": "string" },
+              "costOwner": { "type": "string" },
+              
+              "overrides": {
+                "type": "object",
+                "properties": {
+                  "service": {
+                    "type": "object",
+                    "description": "Override for all environments",
+                    "properties": {
+                      "budgetMultiplier": { "type": "number", "minimum": 0.1, "maximum": 10 },
+                      "alerts": { "type": "array" }
+                    }
+                  },
+                  
+                  "environment": {
+                    "type": "object",
+                    "description": "Override for specific environments",
+                    "properties": {
+                      "int-stable": {
+                        "type": "object",
+                        "properties": {
+                          "budgetMultiplier": { "type": "number" },
+                          "alerts": { "type": "array" },
+                          "allocation": { "type": "object" }
+                        }
+                      },
+                      "pre-stable": { "type": "object" },
+                      "prod": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### cost-profiles.yaml Schema with Environment Overrides
+
+```json
+{
+  "properties": {
+    "costProfiles": {
+      "type": "object",
+      "additionalProperties": {
+        "properties": {
+          "budgets": { "type": "object" },
+          "alerts": { "type": "array" },
+          "optimization": { "type": "object" },
+          
+          "environmentOverrides": {
+            "type": "object",
+            "description": "Override profile for specific environments",
+            "properties": {
+              "int-stable": {
+                "type": "object",
+                "properties": {
+                  "alerts": { "type": "array" },
+                  "allocation": { "type": "object" },
+                  "optimization": { "type": "object" }
+                }
+              },
+              "pre-stable": { "type": "object" },
+              "prod": { "type": "object" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## 3.8 Override Resolution Algorithm
+
+Updated expansion script handles three override levels:
+
+```python
+def calculate_service_cost(service, profile, sizes, environment):
+    """
+    Calculate cost with three-level override precedence:
+    1. Profile defaults
+    2. Profile environment overrides
+    3. Service-level overrides (all envs)
+    4. Service+Environment overrides (most specific)
+    """
+    
+    # 1. Start with profile defaults
+    config = deepcopy(profile)
+    
+    # 2. Apply profile environment overrides (if defined)
+    if environment in profile.get('environmentOverrides', {}):
+        env_override = profile['environmentOverrides'][environment]
+        config = merge(config, env_override)
+    
+    # 3. Apply service-level overrides (affects all environments)
+    if 'overrides' in service.cost:
+        if 'service' in service.cost['overrides']:
+            service_override = service.cost['overrides']['service']
+            config = merge(config, service_override)
+    
+    # 4. Apply service+environment overrides (most specific)
+    if 'overrides' in service.cost:
+        if 'environment' in service.cost['overrides']:
+            if environment in service.cost['overrides']['environment']:
+                env_specific = service.cost['overrides']['environment'][environment]
+                config = merge(config, env_specific)
+    
+    # Calculate final budgets
+    budgets = calculate_budgets(config, service.size, sizes)
+    alerts = substitute_variables(config['alerts'], service)
+    
+    return {
+        'budgets': budgets,
+        'alerts': alerts,
+        'allocation': config.get('allocation', service.cost),
+        'optimization': config.get('optimization', {})
+    }
+
+def merge(base, override):
+    """
+    Deep merge with override taking precedence.
+    Arrays are replaced (not merged).
+    Objects are merged recursively.
+    """
+    result = deepcopy(base)
+    
+    for key, value in override.items():
+        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+            result[key] = merge(result[key], value)
+        else:
+            result[key] = value  # Override completely
+    
+    return result
+```
+
+---
+
+## 4. Cost Management Workflow (with Overrides Applied)
 
 ### 4.1 Complete Integration Pipeline
 
@@ -481,9 +991,9 @@ services:
 
 ---
 
-## 5. Cost Profile Expansion (Technical Details)
+## 5. Cost Management Workflow Details
 
-### 5.1 Resolution Algorithm
+### 5.1 At Validation Time (with Overrides)
 
 ```python
 def calculate_service_cost(service, profile, sizes):
@@ -531,7 +1041,7 @@ def calculate_service_cost(service, profile, sizes):
     }
 ```
 
-### 5.2 Variable Substitution
+### 5.2 Variable Substitution (After Override Resolution)
 
 Profiles use template variables that get replaced per service:
 
@@ -560,7 +1070,7 @@ alerts:
         - "alice.johnson@company.com" # Substituted
 ```
 
-### 5.3 Supported Variables
+### 5.3 Supported Variables (Template Substitution)
 
 | Variable | Replaced With | Example |
 |----------|---------------|---------|
@@ -572,9 +1082,9 @@ alerts:
 
 ---
 
-## 6. CI/CD Validation Workflow
+## 6. CI/CD Validation with Override Support
 
-### 6.1 Validation Steps
+### 6.1 Validation Steps (Including Override Checks)
 
 ```yaml
 # .github/workflows/validate-cost-config.yml
@@ -625,7 +1135,7 @@ jobs:
             --catalog /tmp/expanded-services.yaml
 ```
 
-### 6.2 What Validation Checks
+### 6.2 What Validation Checks (Including Overrides)
 
 ```
 ✅ Schema validation
@@ -652,6 +1162,17 @@ jobs:
    • Teams channels: #channel-name format
    • Email addresses valid
    • At least one channel per alert
+
+✅ Override validation
+   • Service-level override structure valid
+   • Environment override keys (int-stable, pre-stable, prod)
+   • Budget multipliers in valid range (0.1 to 10.0)
+   • Override alerts have valid structure
+   • No circular/conflicting overrides
+
+✅ Final budget after all overrides
+   • Must be within acceptable range after all multipliers applied
+   • Budgets must maintain progression (int < pre < prod)
 ```
 
 ---
@@ -757,7 +1278,7 @@ pods:
 
 ---
 
-## 8. Cost Center Management
+## 8. Cost Center Management (Not Affected by Overrides)
 
 ### 8.1 Getting a Cost Center Code
 
@@ -780,7 +1301,7 @@ CC-50001 = Technology
 
 ---
 
-## 9. Modifying Cost Profiles
+## 9. Modifying Cost Profiles (And Managing Cascading Impacts)
 
 ### 9.1 Creating a New Profile
 
@@ -878,7 +1399,103 @@ costProfiles:
 
 ---
 
-## 10. Troubleshooting
+## 10. Working with Overrides
+
+### 10.1 When to Use Each Override Type
+
+| Use Case | Override Type | Example |
+|----------|---------------|---------|
+| Service is larger than profile assumes | Service-level | Payment processor needs 1.5× budgets across all envs |
+| Environment-wide policy change | Environment-level in profile | All prod services need stricter alerts |
+| Temporary cost adjustment for testing | Service+env | Testing new size in int-stable before prod rollout |
+| Critical service needs tighter control | Service + Service+env | Fraud detection: stricter alerts everywhere + even stricter in prod |
+| One-off exception | Service+env | Single service has unusual costs in single environment |
+
+### 10.2 Common Override Patterns
+
+**Pattern 1: Scale up due to unexpected load**
+```yaml
+cost:
+  overrides:
+    environment:
+      prod:
+        budgetMultiplier: 1.5  # 50% increase for prod only
+```
+
+**Pattern 2: Different policies by environment**
+```yaml
+cost:
+  overrides:
+    environment:
+      int-stable:
+        budgetMultiplier: 0.5  # Dev/test is cheaper
+      pre-stable:
+        budgetMultiplier: 1.0  # Pre matches profile
+      prod:
+        budgetMultiplier: 1.5  # Prod gets safety margin
+```
+
+**Pattern 3: Stricter monitoring for critical service**
+```yaml
+cost:
+  overrides:
+    service:
+      alerts:
+        - name: "warning-70"   # Earlier warning across all envs
+          threshold: 70
+          channels:
+            teams: ["#team-{service}", "#platform-finops"]
+    
+    environment:
+      prod:
+        budgetMultiplier: 1.2  # Extra safety in prod
+        alerts:
+          - name: "warning-60" # Even earlier in prod
+            threshold: 60
+            channels:
+              teams: ["#team-{service}", "#platform-finops"]
+              frequency: immediate
+```
+
+### 10.3 Validating Your Overrides
+
+```bash
+# Expand service with overrides to see final config
+python scripts/expand-cost-config.py \
+  --services kustomize/catalog/services.yaml \
+  --profiles kustomize/catalog/cost-profiles.yaml \
+  --output /tmp/expanded.yaml
+
+# View final budgets for a service
+grep -A20 "payment-processor:" /tmp/expanded.yaml | grep -A10 "budgets:"
+
+# Check override resolution for specific environment
+grep -A50 "payment-processor:" /tmp/expanded.yaml | grep -A5 "prod:"
+```
+
+### 10.4 Override Precedence Quick Reference
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ PRECEDENCE (most → least specific)                      │
+├─────────────────────────────────────────────────────────┤
+│ 1️⃣  Service+Environment override (most specific)        │
+│     cost.overrides.environment.prod.alerts              │
+│                    ↓                                     │
+│ 2️⃣  Service-level override (all environments)           │
+│     cost.overrides.service.alerts                       │
+│                    ↓                                     │
+│ 3️⃣  Profile environment override (all services in env)  │
+│     profile.environmentOverrides.prod.alerts            │
+│                    ↓                                     │
+│ 4️⃣  Profile default (baseline for all)                  │
+│     profile.alerts                                      │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 11. Troubleshooting
 
 ### Problem: Validation fails - "Profile not found"
 
@@ -967,7 +1584,7 @@ If not visible after 1 hour:
 
 ---
 
-## 11. FAQ
+## 12. FAQ
 
 ### Q: Can I skip specifying a cost profile?
 **A**: No. Every service must have `costProfile: profile-name`. This ensures consistent cost management.
@@ -1000,7 +1617,34 @@ cost:
 
 ---
 
-## 12. File Reference
+### Q: Can I override just one alert without changing budgets?
+**A**: Yes. Use service or service+env override with just the `alerts` field:
+```yaml
+overrides:
+  service:
+    alerts:
+      - name: "warning-70"
+        threshold: 70
+        channels: [...]
+```
+
+### Q: What if I need to override cost center by environment?
+**A**: Use profile environmentOverrides:
+```yaml
+costProfiles:
+  standard-api-cost:
+    environmentOverrides:
+      prod:
+        allocation:
+          costCenter: "CC-PROD-ONLY"
+```
+
+### Q: Can overrides themselves be inherited or cascaded?
+**A**: No. Service-level and service+env overrides are explicit only. Use profile environmentOverrides for organization-wide env-specific rules.
+
+---
+
+## 13. File Reference
 
 ### Services Catalog
 - **File**: `kustomize/catalog/services.yaml`
@@ -1027,7 +1671,7 @@ cost:
 
 ---
 
-## 13. Summary
+## 14. Summary
 
 **Cost management via profiles**:
 
