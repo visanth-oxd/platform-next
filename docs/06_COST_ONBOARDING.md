@@ -1,13 +1,12 @@
 # Cost Metrics in Service Onboarding - Mandatory Integration
 
-**Status**: ACCEPTED - 2025-11-15
 
 **Document Type**: Operational Guide + Technical Specification
 
 **Audience**: 
 - Development teams onboarding services
 - Platform engineers implementing cost tracking
-- Finance & FinOps teams
+- Finops
 
 ---
 
@@ -681,7 +680,7 @@ spec:
 services:
   - name: payment-service
     archetype: api
-    profile: public-api
+    profile: domain-api
     size: large
     team: payments-team
     environments: [int-stable, pre-stable, prod]
