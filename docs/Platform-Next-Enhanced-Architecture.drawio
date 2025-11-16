@@ -1,0 +1,591 @@
+<mxfile host="app.diagrams.net" modified="2025-11-16T00:00:00.000Z" agent="5.0" version="21.6.5" etag="enhanced-arch-v1" type="device">
+  <diagram name="Platform-Next Enhanced Architecture" id="enhanced-arch">
+    <mxGraphModel dx="2000" dy="1500" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Platform-Next: Enhanced Architecture with Cost &amp; Monitoring Integration" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=26;fontStyle=1;fontColor=#1a237e" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="1400" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 1: Developer Interface -->
+        <mxCell id="layer1-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="100" y="100" width="1800" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="layer1-title" value="LAYER 1: Developer Interface (Backstage)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#663399" vertex="1" parent="1">
+          <mxGeometry x="120" y="110" width="500" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backstage-url" value="https://backstage.company.com" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="120" y="140" width="300" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Backstage Components -->
+        <mxCell id="software-template" value="Software Templates&#xa;(Service Onboarding)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="170" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-monitoring-form" value="Cost &amp; Monitoring&#xa;Configuration Form" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="360" y="170" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="service-catalog-ui" value="Service Catalog&#xa;(Discovery &amp; Status)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="590" y="170" width="160" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-plugin-ui" value="Cost Plugin&#xa;(Budget Tracking)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="780" y="170" width="140" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="monitoring-plugin-ui" value="Monitoring Plugin&#xa;(Metrics &amp; SLOs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="950" y="170" width="160" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="k8s-plugin-ui" value="Kubernetes Plugin&#xa;(Pods, Logs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1140" y="170" width="140" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-plugin-ui" value="Harness Plugin&#xa;(Deployments)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1310" y="170" width="140" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Developer Actor -->
+        <mxCell id="developer" value="Developer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="150" width="40" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 2: Configuration Repository -->
+        <mxCell id="layer2-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="100" y="340" width="1800" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="layer2-title" value="LAYER 2: Configuration Repository (Platform-Next Git)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#cc6600" vertex="1" parent="1">
+          <mxGeometry x="120" y="350" width="600" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo-url" value="GitHub: company/platform-next" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="120" y="375" width="300" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Service Catalog -->
+        <mxCell id="catalog-services" value="catalog/services.yaml&#xa;(Service Definitions)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="410" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="catalog-cost-profile" value="costProfile: standard-api-cost&#xa;cost.costCenter: CC-12345&#xa;cost.businessUnit: retail-banking" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="160" y="480" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="catalog-monitoring-profile" value="monitoringProfile: api-observability&#xa;monitoring.prometheus: true&#xa;monitoring.dynatrace: true&#xa;sloAvailability: 99.99%" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="160" y="540" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Cost Profiles -->
+        <mxCell id="cost-profiles" value="cost-profiles.yaml&#xa;(Cost Profile Templates)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="410" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-profile-content" value="standard-api-cost:&#xa;  budgets:&#xa;    int-stable: base: 500&#xa;    prod: base: 3000&#xa;  alerts:&#xa;    - threshold: 80%&#xa;    - threshold: 100%" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="390" y="480" width="180" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Monitoring Profiles -->
+        <mxCell id="monitoring-profiles" value="monitoring-profiles.yaml&#xa;(Monitoring Templates)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="410" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="monitoring-profile-content" value="api-observability:&#xa;  prometheus:&#xa;    serviceMonitor: {...}&#xa;    recordingRules: [...]&#xa;    alertRules: [...]&#xa;  dynatrace:&#xa;    application: {...}" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="630" y="480" width="180" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Kustomize Structure -->
+        <mxCell id="kustomize-base" value="kustomize/&#xa;(Bases, Components, Overlays)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="860" y="410" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="kustomize-structure" value="• cb-base/&#xa;• archetype/ (api, listener)&#xa;• components/ (ingress, hpa)&#xa;• envs/ (int, pre, prod)&#xa;• regions/ (euw1, euw2)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="870" y="480" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Generated Manifests -->
+        <mxCell id="generated-manifests" value="generated/&#xa;{service}/{env}/{region}/&#xa;manifests.yaml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1080" y="410" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="generated-content" value="Includes:&#xa;• Deployment (cost labels)&#xa;• ServiceMonitor (Prometheus)&#xa;• PrometheusRule (alerts)&#xa;• Dynatrace ConfigMap" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="480" width="180" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Profile Expansion Output -->
+        <mxCell id="expanded-config" value="expanded-configs/&#xa;(Profile Expansion Output)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1320" y="410" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="expanded-content" value="expanded-cost.json:&#xa;  budgets: {int: $1K, prod: $6K}&#xa;  labels: {costCenter, owner}&#xa;&#xa;expanded-monitoring.json:&#xa;  slos: {availability: 99.99%}&#xa;  thresholds: {cpu: 750m}" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1330" y="480" width="180" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 3: CI/CD Pipeline -->
+        <mxCell id="layer3-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="100" y="660" width="1800" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="layer3-title" value="LAYER 3: CI/CD Pipeline (GitHub Actions)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#b85450" vertex="1" parent="1">
+          <mxGeometry x="120" y="670" width="500" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- CI/CD Steps -->
+        <mxCell id="ci-schema-validation" value="1. Schema Validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="720" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ci-cost-expansion" value="2. Cost Profile&#xa;Expansion" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="320" y="720" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ci-monitoring-expansion" value="3. Monitoring Profile&#xa;Expansion" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="490" y="720" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ci-cost-center-verify" value="4. Cost Center&#xa;Verification" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="660" y="720" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ci-promql-validation" value="5. PromQL&#xa;Validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="830" y="720" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ci-manifest-generation" value="6. Manifest&#xa;Generation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1000" y="720" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ci-kustomize-build" value="7. Kustomize Build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1170" y="720" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ci-git-commit" value="8. Git Commit&#xa;(generated/)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1340" y="720" width="140" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- CI/CD Details -->
+        <mxCell id="ci-details" value="Profile Expansion Engine (Python):&#xa;• Calculate budgets (size × base × scaling)&#xa;• Substitute variables ({SERVICE}, {TEAM})&#xa;• Apply overrides (env, service-level)&#xa;• Generate cost labels&#xa;• Generate monitoring resources&#xa;&#xa;Manifest Generation (Bash):&#xa;• Inject cost labels into commonLabels&#xa;• Generate ServiceMonitor.yaml&#xa;• Generate PrometheusRule (recording + alerts)&#xa;• Generate Dynatrace ConfigMap&#xa;• Build with kustomize" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="150" y="780" width="1330" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 4: Cost Management -->
+        <mxCell id="layer4-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="100" y="900" width="900" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="layer4-title" value="LAYER 4: Cost Management (Apptio Integration)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#2e7d32" vertex="1" parent="1">
+          <mxGeometry x="120" y="910" width="500" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Apptio Sync Service -->
+        <mxCell id="apptio-sync" value="Apptio Sync Service&#xa;(Python/FastAPI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="960" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="apptio-sync-tasks" value="Triggered: Deployment Successful&#xa;• Create budgets in Apptio&#xa;• Configure alert rules&#xa;• Setup notification channels&#xa;• Enable cost tracking&#xa;&#xa;✅ Service deployed with labels&#xa;   → Cost tracking starts immediately" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="160" y="1020" width="160" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Apptio Platform -->
+        <mxCell id="apptio-platform" value="Apptio Platform&#xa;(SaaS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="960" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="apptio-features" value="Budget Management:&#xa;• Planned budgets (created early)&#xa;• Actual cost tracking (after deploy)&#xa;• Budget vs actual comparison&#xa;• Alert rules (80%, 100%)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="390" y="1020" width="160" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- GCP Billing -->
+        <mxCell id="gcp-billing" value="GCP Billing Export&#xa;(Daily)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="610" y="960" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="gcp-billing-details" value="Cost Tracking:&#xa;• Exports labeled costs (daily)&#xa;• Per-resource breakdown&#xa;• Daily aggregates&#xa;&#xa;✅ Works when pods running&#xa;   with cost labels" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="1020" width="160" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Cost Labels Flow -->
+        <mxCell id="cost-labels-flow" value="Cost Management Timeline:&#xa;&#xa;📅 T+0 (Catalog Merged):&#xa;  → Manifests generated with cost labels&#xa;  → Ready for deployment&#xa;&#xa;📅 T+1 (Service Deployed):&#xa;  → Harness deploys with cost labels&#xa;  → Pods running with labels&#xa;  → Apptio Sync triggered (deployment success)&#xa;  → Budgets created in Apptio&#xa;&#xa;📅 T+2 (First Cost Data):&#xa;  → GCP billing exports labeled costs&#xa;  → Apptio ingests actual costs&#xa;  → Comparison: Budget vs Actual starts&#xa;&#xa;📅 T+3+ (Ongoing):&#xa;  → Daily cost tracking&#xa;  → Alerts fire at thresholds" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="150" y="1130" width="640" height="140" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 5: Deployment Orchestration -->
+        <mxCell id="layer5-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#cc6600;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="900" width="860" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="layer5-title" value="LAYER 5: Deployment Orchestration (Harness)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#cc6600" vertex="1" parent="1">
+          <mxGeometry x="1060" y="910" width="500" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Harness Platform -->
+        <mxCell id="harness-platform" value="Harness SaaS Platform&#xa;app.harness.io" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1080" y="960" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-features" value="Features:&#xa;• Multi-gate approvals&#xa;• Canary deployments&#xa;• Change windows&#xa;• Image tag injection" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="1020" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Harness Pipelines -->
+        <mxCell id="harness-pipelines" value="Per-Service Pipelines&#xa;(100+ pipelines)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1320" y="960" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pipeline-flow" value="Pipeline Flow:&#xa;1. Fetch manifests (Git)&#xa;2. Inject image tag&#xa;3. Deploy to cluster&#xa;4. Health checks" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="1020" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Harness Delegates -->
+        <mxCell id="harness-delegates" value="Harness Delegates&#xa;(Per Cluster)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="1540" y="960" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delegates-details" value="Delegates:&#xa;• int-stable-euw1&#xa;• pre-stable-euw1&#xa;• prod-euw1&#xa;• prod-euw2" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1550" y="1020" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Deployment Flow -->
+        <mxCell id="deployment-flow" value="Deployment Flow:&#xa;&#xa;1. Developer triggers pipeline&#xa;2. Harness fetches manifests from Git&#xa;3. Injects runtime image tag&#xa;4. Deploys via delegate to cluster&#xa;5. Resources include cost labels&#xa;6. Monitoring resources deployed" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1090" width="640" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 6: Runtime (Kubernetes) -->
+        <mxCell id="layer6-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f2ff;strokeColor=#0066cc;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1140" width="1800" height="400" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="layer6-title" value="LAYER 6: Runtime (Kubernetes Clusters)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#0066cc" vertex="1" parent="1">
+          <mxGeometry x="120" y="1150" width="500" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Cluster: Int-Stable -->
+        <mxCell id="cluster-int" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="150" y="1200" width="500" height="310" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cluster-int-title" value="Int-Stable Cluster (euw1)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="170" y="1210" width="460" height="25" as="geometry" />
+        </mxCell>
+        
+        <!-- Deployed Resources -->
+        <mxCell id="deployment-int" value="Deployment: payment-processor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="180" y="1250" width="200" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="deployment-labels" value="Labels:&#xa;cost.service: payment-processor&#xa;cost.costCenter: CC-12345&#xa;cost.budget: &quot;1000&quot;&#xa;monitoring.profile: api-observability" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="190" y="1300" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Prometheus Resources -->
+        <mxCell id="prometheus-int" value="Prometheus Resources" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="1250" width="200" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="prometheus-resources" value="• ServiceMonitor&#xa;• PrometheusRule (recording)&#xa;• PrometheusRule (alerts)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="410" y="1300" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Dynatrace Resources -->
+        <mxCell id="dynatrace-int" value="Dynatrace Resources" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="180" y="1380" width="200" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-resources" value="• ConfigMap (app config)&#xa;• OneAgent auto-instruments" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1430" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Cost Tracking -->
+        <mxCell id="cost-tracking-int" value="Cost Tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="1380" width="200" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-tracking-details" value="✅ ACTUAL Cost Tracking:&#xa;• GCP billing exports labels&#xa;• Apptio compares vs budget&#xa;• Alerts at 80%, 100%&#xa;&#xa;⚠️ Only active after deployment" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="410" y="1430" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Monitoring Active -->
+        <mxCell id="monitoring-active-int" value="Monitoring Active" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="180" y="1490" width="420" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="monitoring-active-details" value="• Prometheus scraping /metrics (30s)&#xa;• Recording rules calculating SLOs&#xa;• Alert rules monitoring thresholds&#xa;• Dynatrace APM tracking requests&#xa;• Grafana dashboards available" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1540" width="400" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Cluster: Production -->
+        <mxCell id="cluster-prod" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="700" y="1200" width="500" height="310" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cluster-prod-title" value="Production Cluster (euw1)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#cc6600" vertex="1" parent="1">
+          <mxGeometry x="720" y="1210" width="460" height="25" as="geometry" />
+        </mxCell>
+        
+        <!-- Production Resources (same structure) -->
+        <mxCell id="deployment-prod" value="Deployment: payment-processor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="730" y="1250" width="200" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="deployment-labels-prod" value="Labels:&#xa;cost.service: payment-processor&#xa;cost.costCenter: CC-12345&#xa;cost.budget: &quot;6000&quot;&#xa;monitoring.profile: api-observability" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="740" y="1300" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="prometheus-prod" value="Prometheus Resources" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="950" y="1250" width="200" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="prometheus-resources-prod" value="• ServiceMonitor&#xa;• PrometheusRule (recording)&#xa;• PrometheusRule (alerts)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="960" y="1300" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-prod" value="Dynatrace Resources" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="730" y="1380" width="200" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-resources-prod" value="• ConfigMap (app config)&#xa;• OneAgent auto-instruments" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="740" y="1430" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-tracking-prod" value="Cost Tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="950" y="1380" width="200" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-tracking-details-prod" value="✅ ACTUAL Cost Tracking:&#xa;• GCP billing exports labels&#xa;• Apptio compares vs budget ($6K)&#xa;• Alerts at 80%, 100%&#xa;&#xa;⚠️ Only active after deployment" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="960" y="1430" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="monitoring-active-prod" value="Monitoring Active" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="730" y="1490" width="420" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="monitoring-active-details-prod" value="• Prometheus scraping /metrics (30s)&#xa;• SLOs: 99.99% availability, 200ms p95&#xa;• Alert rules monitoring SLOs&#xa;• Dynatrace APM tracking requests&#xa;• Grafana dashboards available" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="740" y="1540" width="400" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Observability Stack -->
+        <mxCell id="observability-stack" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1250" y="1200" width="600" height="310" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="observability-title" value="Observability Stack" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#1976d2" vertex="1" parent="1">
+          <mxGeometry x="1270" y="1210" width="560" height="25" as="geometry" />
+        </mxCell>
+        
+        <!-- Prometheus -->
+        <mxCell id="prometheus-stack" value="Prometheus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1280" y="1250" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="prometheus-stack-details" value="• Scrapes ServiceMonitors&#xa;• Stores time-series data&#xa;• Evaluates recording rules&#xa;• Fires alert rules" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="1300" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Grafana -->
+        <mxCell id="grafana-stack" value="Grafana" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1490" y="1250" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="grafana-stack-details" value="• Dashboards from profiles&#xa;• Real-time metrics&#xa;• SLO compliance views&#xa;• Alert visualization" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1500" y="1300" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Dynatrace -->
+        <mxCell id="dynatrace-stack" value="Dynatrace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1700" y="1250" width="130" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-stack-details" value="• APM&#xa;• Distributed tracing&#xa;• Real-user monitoring" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="1300" width="110" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Alert Manager -->
+        <mxCell id="alertmanager-stack" value="AlertManager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#c62828;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1280" y="1380" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="alertmanager-details" value="• Receives alerts from Prometheus&#xa;• Routes to Teams, PagerDuty&#xa;• Manages alert lifecycle" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="1430" width="160" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Cost Visibility -->
+        <mxCell id="cost-visibility-stack" value="Cost Visibility" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1490" y="1380" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cost-visibility-details" value="• Apptio dashboards&#xa;• Backstage cost plugin&#xa;• Budget vs actual&#xa;• Cost trends" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1500" y="1430" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flow Summary -->
+        <mxCell id="data-flow-summary" value="Complete Data Flow:&#xa;&#xa;📋 PLANNING PHASE (Before Deployment):&#xa;1. Developer → Backstage (form with cost &amp; monitoring)&#xa;2. Backstage → Catalog PR (services.yaml with profiles)&#xa;3. CI/CD → Profile Expansion (calculate budgets, SLOs)&#xa;4. CI/CD → Manifest Generation (inject labels, generate resources)&#xa;5. CI/CD → Git Commit (generated/manifests.yaml)&#xa;&#xa;🚀 DEPLOYMENT PHASE:&#xa;6. Harness → Fetch Manifests (from Git)&#xa;7. Harness → Deploy (with cost labels, monitoring resources)&#xa;8. Deployment Successful → Apptio Sync Triggered&#xa;   • Create budgets in Apptio&#xa;   • Configure alert rules&#xa;   • Enable cost tracking&#xa;&#xa;💰 RUNTIME PHASE (After Deployment):&#xa;9. Runtime → Cost Tracking Starts (GCP → Apptio)&#xa;   • Pods running with cost labels&#xa;   • GCP billing exports labeled costs (daily)&#xa;   • Apptio ingests and compares vs budget&#xa;10. Runtime → Monitoring Active (Prometheus, Dynatrace)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1280" y="1490" width="550" height="250" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Layer 1 to Layer 2 -->
+        <mxCell id="arrow-1-2" value="1. Create PR&#xa;(Catalog Update)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#00cc66;fontSize=11;fontStyle=1" edge="1" parent="1" source="software-template" target="catalog-services">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="300" />
+              <mxPoint x="250" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Layer 2 to Layer 3 -->
+        <mxCell id="arrow-2-3" value="2. Trigger CI/CD&#xa;(Catalog Changed)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#ff9900;fontSize=11;fontStyle=1" edge="1" parent="1" source="catalog-services" target="ci-schema-validation">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="620" />
+              <mxPoint x="220" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: CI/CD Steps -->
+        <mxCell id="arrow-ci-1-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="ci-schema-validation" target="ci-cost-expansion">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-ci-2-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="ci-cost-expansion" target="ci-monitoring-expansion">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-ci-3-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="ci-monitoring-expansion" target="ci-cost-center-verify">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-ci-4-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="ci-cost-center-verify" target="ci-promql-validation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-ci-5-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="ci-promql-validation" target="ci-manifest-generation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-ci-6-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="ci-manifest-generation" target="ci-kustomize-build">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-ci-7-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#666666" edge="1" parent="1" source="ci-kustomize-build" target="ci-git-commit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Layer 5 to Layer 4 (Deployment Success triggers Apptio Sync) -->
+        <mxCell id="arrow-5-4" value="6. Trigger Apptio Sync&#xa;(Deployment Successful)&#xa;✅ Service deployed&#xa;   → Create budgets&#xa;   → Start cost tracking" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#2e7d32;fontSize=11;fontStyle=1" edge="1" parent="1" source="harness-delegates" target="apptio-sync">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1630" y="1000" />
+              <mxPoint x="240" y="1000" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Layer 3 to Layer 5 -->
+        <mxCell id="arrow-3-5" value="4. Fetch Manifests&#xa;(GitOps)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#0099cc;fontSize=11;fontStyle=1;dashed=1" edge="1" parent="1" source="generated-manifests" target="harness-platform">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1180" y="800" />
+              <mxPoint x="1180" y="985" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Layer 5 to Layer 6 -->
+        <mxCell id="arrow-5-6" value="5. Deploy&#xa;(via Delegate)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#009900;fontSize=11;fontStyle=1" edge="1" parent="1" source="harness-delegates" target="deployment-int">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1630" y="1100" />
+              <mxPoint x="280" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrows: Apptio Sync to Apptio -->
+        <mxCell id="arrow-sync-apptio" value="Create Budgets" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#2e7d32;fontSize=10" edge="1" parent="1" source="apptio-sync" target="apptio-platform">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: GCP to Apptio -->
+        <mxCell id="arrow-gcp-apptio" value="Ingest ACTUAL Costs&#xa;(After deployment)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1976d2;fontSize=10;fontStyle=1" edge="1" parent="1" source="gcp-billing" target="apptio-platform">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow: Deployment to Cost Tracking -->
+        <mxCell id="arrow-deploy-cost" value="Cost Tracking Starts&#xa;(Pods with labels)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#2e7d32;fontSize=10;fontStyle=1;dashed=1" edge="1" parent="1" source="deployment-int" target="gcp-billing">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="1320" />
+              <mxPoint x="700" y="1320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1560" width="400" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="110" y="1570" width="380" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-cost" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1610" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-cost-text" value="Cost Management Components" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1605" width="320" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-monitoring" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1645" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-monitoring-text" value="Monitoring Components" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1640" width="320" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-deployment" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1680" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-deployment-text" value="Deployment Components" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1675" width="320" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Key Features Box -->
+        <mxCell id="features-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1560" width="400" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="features-title" value="✅ Key Features" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#28a745" vertex="1" parent="1">
+          <mxGeometry x="550" y="1570" width="380" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="features-content" value="💰 Cost Management:&#xa;• Profile-based budgets&#xa;• Automatic cost labeling&#xa;• Apptio integration&#xa;• Budget alerts&#xa;&#xa;📊 Monitoring:&#xa;• Profile-based SLOs&#xa;• Prometheus + Dynatrace&#xa;• Auto-generated resources&#xa;• SLO compliance tracking&#xa;&#xa;🚀 Deployment:&#xa;• GitOps with Kustomize&#xa;• Multi-cluster support&#xa;• Canary deployments&#xa;• Integrated from day 1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1600" width="360" height="150" as="geometry" />
+        </mxCell>
+        
+        <!-- Integration Summary -->
+        <mxCell id="integration-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="980" y="1560" width="920" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="integration-title" value="🔗 Integration Summary" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#ff9900" vertex="1" parent="1">
+          <mxGeometry x="990" y="1570" width="900" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="integration-content" value="Cost Integration:&#xa;  Backstage Form → Catalog (costProfile, cost metadata) → CI/CD Expansion (calculate budgets, labels) → Kustomize (inject labels) → Harness (deploy with labels) → GCP (billing with labels) → Apptio (track vs budget) → Backstage (cost plugin)&#xa;&#xa;Monitoring Integration:&#xa;  Backstage Form → Catalog (monitoringProfile, SLO overrides) → CI/CD Expansion (substitute variables, calculate thresholds) → Kustomize (generate ServiceMonitor, PrometheusRule, Dynatrace ConfigMap) → Harness (deploy monitoring resources) → Prometheus/Dynatrace (collect metrics) → Grafana (dashboards) → AlertManager (alerts)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1000" y="1600" width="880" height="150" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
