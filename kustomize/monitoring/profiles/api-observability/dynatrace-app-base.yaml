@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dynatrace-app-base
+  labels:
+    monitoring.profile: api-observability
+    monitoring.tool: dynatrace
+    monitoring.primary: "true"
+data:
+  application.json: |
+    {
+      "metadata": {
+        "name": "{SERVICE}",
+        "environment": "{ENVIRONMENT}",
+        "team": "{TEAM}",
+        "costCenter": "{COST_CENTER}"
+      },
+      "monitoring": {
+        "technologies": ["java", "http", "databases", "kubernetes"],
+        "requestNaming": "{RequestPath} [{RequestMethod}]",
+        "requestAttributes": [
+          {
+            "name": "service",
+            "source": {
+              "kubernetesLabel": "app"
+            }
+          },
+          {
+            "name": "team",
+            "source": {
+              "kubernetesLabel": "cost.team"
+            }
+          },
+          {
+            "name": "environment",
+            "source": {
+              "kubernetesLabel": "cost.environment"
+            }
+          },
+          {
+            "name": "costCenter",
+            "source": {
+              "kubernetesLabel": "cost.costCenter"
+            }
+          },
+          {
+            "name": "region",
+            "source": {
+              "kubernetesLabel": "cost.region"
+            }
+          }
+        ]
+      },
+      "alertRules": [
+        {
+          "name": "ErrorRateAnomaly",
+          "enabled": true,
+          "condition": "Anomaly(ErrorRate)",
+          "targets": ["SERVICE"],
+          "severity": "warning",
+          "notificationChannels": ["teams-{SERVICE}"]
+        },
+        {
+          "name": "HighLatencyAnomaly",
+          "enabled": true,
+          "condition": "Anomaly(ResponseTime)",
+          "targets": ["SERVICE"],
+          "severity": "warning",
+          "notificationChannels": ["teams-{SERVICE}"]
+        },
+        {
+          "name": "DatabaseSlowQueries",
+          "enabled": true,
+          "condition": "SlowDatabaseQueries(200ms)",
+          "targets": ["DATABASE"],
+          "severity": "warning",
+          "notificationChannels": ["teams-{SERVICE}"]
+        },
+        {
+          "name": "ServiceCrash",
+          "enabled": true,
+          "condition": "CrashDetection",
+          "targets": ["SERVICE"],
+          "severity": "critical",
+          "notificationChannels": ["teams-{SERVICE}", "pagerduty-oncall"]
+        }
+      ],
+      "customMetrics": []
+    }
+

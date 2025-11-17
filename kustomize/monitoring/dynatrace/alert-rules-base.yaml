@@ -1,0 +1,13 @@
+# Standard Dynatrace Alert Rules
+# These are base alert rules applied to all services
+
+# Alert Rules (configured in Dynatrace ConfigMap):
+# 1. ErrorRateAnomaly - Anomaly detection on error rate
+# 2. HighLatencyAnomaly - Anomaly detection on response time
+# 3. DatabaseSlowQueries - Slow database query detection
+# 4. ServiceCrash - Service crash detection
+
+# Custom alert rules can be added via:
+# - Service-specific custom metrics (from metrics-catalog)
+# - Environment-specific overrides (in monitoring-profiles.yaml)
+

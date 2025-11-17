@@ -1,0 +1,344 @@
+<mxfile host="app.diagrams.net" modified="2025-11-16T00:00:00.000Z" agent="5.0" version="21.6.5" etag="dynatrace-monitoring-v1" type="device">
+  <diagram name="Dynatrace Monitoring Architecture" id="dynatrace-monitoring-arch">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Dynatrace Monitoring Design: Profiles + Custom Metrics as Code" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="20" width="1000" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 1: Developer & Backstage -->
+        <mxCell id="layer1-title" value="LAYER 1: SERVICE ONBOARDING" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="300" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="developer" value="Developer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="80" y="130" width="40" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backstage-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="200" y="120" width="350" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backstage-title" value="Backstage Developer Portal" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="220" y="130" width="310" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backstage-form" value="Service Onboarding Form" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="220" y="170" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backstage-monitoring" value="Monitoring Profile: api-observability&#xa;Custom Metrics: payment-business-metrics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="380" y="170" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backstage-submit" value="Submit → Create Catalog Entry" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="220" y="250" width="310" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow: Developer to Backstage -->
+        <mxCell id="arrow-dev-backstage" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="developer" target="backstage-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="400" as="sourcePoint" />
+            <mxPoint x="650" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Layer 2: Configuration Repositories -->
+        <mxCell id="layer2-title" value="LAYER 2: CONFIGURATION REPOSITORIES" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="360" width="400" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Repository 1: platform-next -->
+        <mxCell id="repo1-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="50" y="400" width="450" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo1-title" value="Repository 1: platform-next (Platform Team)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="70" y="410" width="410" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo1-services" value="catalog/services.yaml&#xa;• Service definitions&#xa;• monitoringProfile: api-observability&#xa;• customMetrics: metrics-catalog" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="70" y="450" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo1-profiles" value="catalog/monitoring-profiles.yaml&#xa;• api-observability profile&#xa;• batch-job-observability&#xa;• listener-observability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="280" y="450" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo1-kustomize" value="kustomize/monitoring/profiles/&#xa;• api-observability/&#xa;  - dynatrace-app-base.yaml&#xa;  - kustomization.yaml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="70" y="550" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo1-scripts" value="scripts/generate-kz.sh&#xa;• Profile expansion&#xa;• Custom metrics merge&#xa;• Dynatrace ConfigMap generation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="280" y="550" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo1-business" value="Business Context:&#xa;• Business Unit: core-banking&#xa;• Owner: sre@company.com&#xa;• Cost Center: CORE-B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;" vertex="1" parent="1">
+          <mxGeometry x="70" y="650" width="410" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Repository 2: metrics-catalog -->
+        <mxCell id="repo2-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="550" y="400" width="450" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo2-title" value="Repository 2: metrics-catalog (Observability Team)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="410" width="410" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo2-services" value="services/payment-processor/&#xa;• payment-business-metrics.yaml&#xa;• payment-fraud-metrics.yaml&#xa;• Custom Dynatrace metrics&#xa;• Custom alert rules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="570" y="450" width="200" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo2-profiles" value="profiles/&#xa;• payment-business-metrics/&#xa;• payment-fraud-metrics/&#xa;• Reusable metric profiles" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="780" y="450" width="200" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo2-versioning" value="Versioned Independently&#xa;• Git tags: v1.2.0, v1.3.0&#xa;• Service references by version&#xa;• Can update without platform changes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="570" y="570" width="410" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repo2-ownership" value="Owned by Observability Team&#xa;Can add/update metrics without touching platform-next" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;" vertex="1" parent="1">
+          <mxGeometry x="570" y="670" width="410" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow: Backstage to Repo1 -->
+        <mxCell id="arrow-backstage-repo1" value="1. Create Catalog Entry" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="backstage-container" target="repo1-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="500" as="sourcePoint" />
+            <mxPoint x="450" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrow: Repo1 to Repo2 (reference) -->
+        <mxCell id="arrow-repo1-repo2" value="References" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;dashed=1;" edge="1" parent="1" source="repo1-container" target="repo2-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="500" as="sourcePoint" />
+            <mxPoint x="650" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Layer 3: CI/CD Pipeline -->
+        <mxCell id="layer3-title" value="LAYER 3: CI/CD PIPELINE" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="720" width="300" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cicd-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="50" y="760" width="950" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cicd-title" value="CI/CD Pipeline (GitHub Actions / Jenkins)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="70" y="770" width="910" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cicd-step1" value="Step 1: Profile Expansion&#xa;• Load base profile (api-observability)&#xa;• Fetch custom metrics (metrics-catalog)&#xa;• Merge: Base + Custom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="70" y="810" width="220" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cicd-step2" value="Step 2: Variable Substitution&#xa;• {SERVICE} → payment-processor&#xa;• {ENVIRONMENT} → prod&#xa;• {COST_CENTER} → CORE-B&#xa;• {BUSINESS_UNIT} → core-banking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="300" y="810" width="220" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cicd-step3" value="Step 3: Generate ConfigMap&#xa;• Unified Dynatrace ConfigMap&#xa;• Base profile + Custom metrics&#xa;• Alert rules merged" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="530" y="810" width="220" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cicd-step4" value="Step 4: Commit to Git&#xa;• generated/payment-processor/&#xa;  prod/euw1/monitoring/&#xa;  dynatrace-app-config.yaml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="760" y="810" width="220" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow: Repo1 to CI/CD -->
+        <mxCell id="arrow-repo1-cicd" value="2. Trigger CI/CD" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="repo1-container" target="cicd-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="800" as="sourcePoint" />
+            <mxPoint x="350" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrow: Repo2 to CI/CD (fetch) -->
+        <mxCell id="arrow-repo2-cicd" value="Fetch Custom Metrics" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="repo2-container" target="cicd-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="800" y="800" as="sourcePoint" />
+            <mxPoint x="850" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Layer 4: Deployment -->
+        <mxCell id="layer4-title" value="LAYER 4: DEPLOYMENT" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="1000" width="300" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1040" width="300" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-title" value="Harness CD" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="70" y="1050" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-fetch" value="Fetch Manifests&#xa;from Git" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1090" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-deploy" value="Deploy to K8s&#xa;Cluster" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="210" y="1090" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="harness-success" value="Deployment Successful" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1160" width="260" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Kubernetes Cluster -->
+        <mxCell id="k8s-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1040" width="600" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="k8s-title" value="Kubernetes Cluster (prod-euw1)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="420" y="1050" width="560" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="k8s-namespace" value="Namespace: prod-payment-processor-euw1-stable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="420" y="1090" width="280" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="k8s-configmap" value="ConfigMap: payment-processor-dynatrace-config&#xa;• Base profile (api-observability)&#xa;• Custom metrics (payment-business-metrics)&#xa;• Merged alert rules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="420" y="1130" width="280" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="k8s-pod" value="Pod: payment-processor&#xa;• Labels: app, cost.costCenter=CORE-B&#xa;• Dynatrace OneAgent auto-instruments" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="720" y="1090" width="260" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="k8s-sync-controller" value="Dynatrace Sync Controller&#xa;• Watches ConfigMaps&#xa;• Syncs to Dynatrace SaaS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;" vertex="1" parent="1">
+          <mxGeometry x="720" y="1160" width="260" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow: CI/CD to Harness -->
+        <mxCell id="arrow-cicd-harness" value="3. Manifests Ready" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="cicd-container" target="harness-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="1100" as="sourcePoint" />
+            <mxPoint x="550" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrow: Harness to K8s -->
+        <mxCell id="arrow-harness-k8s" value="4. Deploy" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="harness-container" target="k8s-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="1150" as="sourcePoint" />
+            <mxPoint x="450" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Layer 5: Dynatrace Runtime -->
+        <mxCell id="layer5-title" value="LAYER 5: DYNATRACE RUNTIME MONITORING" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="1260" width="400" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1300" width="950" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-title" value="Dynatrace SaaS Platform" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="70" y="1310" width="910" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-sync" value="5. Sync Controller&#xa;Syncs ConfigMap to Dynatrace&#xa;• Application definition created&#xa;• Alert rules configured&#xa;• Custom metrics registered" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1350" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-oneagent" value="Dynatrace OneAgent (DaemonSet)&#xa;• Auto-instruments Java app&#xa;• Collects standard metrics:&#xa;  - HTTP requests/responses&#xa;  - Database queries&#xa;  - Error rates&#xa;  - Latency (p95, p99)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1350" width="220" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-custom" value="Custom Metrics Collection&#xa;• payment_transactions_total&#xa;• payment_success_rate&#xa;• fraud_check_latency&#xa;• chargeback_count" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="530" y="1350" width="220" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-alerts" value="Alert Rules Active&#xa;• ErrorRateAnomaly (base)&#xa;• PaymentSuccessRateLow (custom)&#xa;• FraudCheckLatencyHigh (custom)&#xa;• Notifications: Teams, PagerDuty" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;" vertex="1" parent="1">
+          <mxGeometry x="770" y="1350" width="220" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dynatrace-dashboards" value="Dashboards &amp; SLOs&#xa;• Service dashboards&#xa;• Business metrics views&#xa;• SLO tracking (99.99% availability)&#xa;• Cost center: CORE-B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1450" width="920" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow: K8s to Dynatrace -->
+        <mxCell id="arrow-k8s-dynatrace" value="5. Sync" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="k8s-container" target="dynatrace-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="700" y="1300" as="sourcePoint" />
+            <mxPoint x="750" y="1250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrow: Pod to Dynatrace (metrics) -->
+        <mxCell id="arrow-pod-dynatrace" value="6. Metrics Collection" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.25;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="k8s-pod" target="dynatrace-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="850" y="1300" as="sourcePoint" />
+            <mxPoint x="900" y="1250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="80" width="300" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1070" y="90" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-base" value="Base Profile (platform-next)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="130" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-custom" value="Custom Metrics (metrics-catalog)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="170" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-critical" value="Critical/Alert Components" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="210" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-note" value="Note: No Prometheus/Grafana&#xa;Pure Dynatrace solution" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="1070" y="250" width="260" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Observability Team Workflow -->
+        <mxCell id="obs-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="400" width="300" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obs-title" value="Observability Team Workflow" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1070" y="410" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obs-step1" value="1. Add custom metric to&#xa;   metrics-catalog repo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="450" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obs-step2" value="2. Commit &amp; tag (v1.3.0)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="490" width="260" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obs-step3" value="3. Update service ref (optional)&#xa;   or use existing profile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="530" width="260" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obs-step4" value="4. CI/CD regenerates manifests&#xa;   → New metrics available" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="580" width="260" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flow Summary -->
+        <mxCell id="flow-summary" value="Complete Data Flow:&#xa;&#xa;1. Developer → Backstage (form with monitoring profile + custom metrics)&#xa;2. Backstage → Catalog Entry (services.yaml)&#xa;3. CI/CD → Profile Expansion (load base + fetch custom metrics)&#xa;4. CI/CD → Merge &amp; Generate (unified Dynatrace ConfigMap)&#xa;5. CI/CD → Git Commit (generated/manifests.yaml)&#xa;6. Harness → Fetch Manifests (from Git)&#xa;7. Harness → Deploy (ConfigMap + Pod to K8s)&#xa;8. Dynatrace Sync Controller → Syncs ConfigMap to Dynatrace SaaS&#xa;9. Dynatrace OneAgent → Auto-instruments app, collects metrics&#xa;10. Dynatrace → Alerts fire, dashboards update" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="640" width="300" height="280" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

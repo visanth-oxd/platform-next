@@ -1,0 +1,17 @@
+# Standard Dynatrace Request Attributes
+# These are applied to all services using Dynatrace monitoring
+
+# Request attributes are configured via Dynatrace API or UI
+# This file documents the standard attributes that should be configured
+
+# Standard Request Attributes:
+# 1. service - From Kubernetes label: app
+# 2. team - From Kubernetes label: cost.team
+# 3. environment - From Kubernetes label: cost.environment
+# 4. costCenter - From Kubernetes label: cost.costCenter
+# 5. region - From Kubernetes label: cost.region
+# 6. archetype - From Kubernetes label: archetype
+# 7. size - From Kubernetes label: size
+
+# These are automatically configured when Dynatrace ConfigMap is synced
+

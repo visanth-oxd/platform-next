@@ -1,0 +1,60 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: app-prometheus-rules
+  labels:
+    monitoring.profile: api-observability
+    monitoring.tool: prometheus
+spec:
+  groups:
+    # Recording rules (pre-compute aggregations)
+    - name: golden_signals_recording
+      interval: 30s
+      rules:
+        - record: service:http_requests:rate5m
+          expr: |
+            sum(rate(http_requests_total{service="{SERVICE}"}[5m]))
+            by (method, status)
+        
+        - record: service:http_errors:rate5m
+          expr: |
+            sum(rate(http_errors_total{service="{SERVICE}"}[5m]))
+        
+        - record: service:http_latency:p95
+          expr: |
+            histogram_quantile(0.95,
+              sum(rate(http_request_duration_seconds_bucket{service="{SERVICE}"}[5m]))
+              by (le)
+            )
+        
+        - record: service:http_error_ratio:rate5m
+          expr: |
+            service:http_errors:rate5m{service="{SERVICE}"}
+            /
+            service:http_requests:rate5m{service="{SERVICE}"}
+    
+    # Alert rules
+    - name: golden_signals_alerts
+      rules:
+        - alert: HighErrorRate
+          expr: |
+            service:http_error_ratio:rate5m{service="{SERVICE}"} > {ERROR_RATE_THRESHOLD}
+          for: 5m
+          labels:
+            severity: warning
+            service: "{SERVICE}"
+          annotations:
+            summary: "High error rate for {SERVICE}"
+            description: "Error rate is {{ $value | humanizePercentage }} (threshold: {ERROR_RATE_THRESHOLD})"
+        
+        - alert: HighLatency
+          expr: |
+            service:http_latency:p95{service="{SERVICE}"} > {LATENCY_P95_THRESHOLD}
+          for: 5m
+          labels:
+            severity: warning
+            service: "{SERVICE}"
+          annotations:
+            summary: "High latency for {SERVICE}"
+            description: "P95 latency is {{ $value | humanizeDuration }} (threshold: {LATENCY_P95_THRESHOLD})"
+

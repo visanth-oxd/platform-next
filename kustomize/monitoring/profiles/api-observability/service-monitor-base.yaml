@@ -1,0 +1,29 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: app-service-monitor
+  labels:
+    monitoring.profile: api-observability
+    monitoring.tool: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: app  # Will be replaced by service name via patch
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+      relabelings:
+        # Add service metadata as metric labels
+        - sourceLabels: [__meta_kubernetes_pod_label_cost_service]
+          targetLabel: service
+        - sourceLabels: [__meta_kubernetes_pod_label_cost_team]
+          targetLabel: team
+        - sourceLabels: [__meta_kubernetes_pod_label_cost_environment]
+          targetLabel: environment
+        - sourceLabels: [__meta_kubernetes_pod_label_cost_costCenter]
+          targetLabel: costCenter
+        - sourceLabels: [__meta_kubernetes_pod_label_cost_region]
+          targetLabel: region
+

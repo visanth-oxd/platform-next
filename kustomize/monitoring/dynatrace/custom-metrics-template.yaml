@@ -1,0 +1,23 @@
+# Template for Custom Metrics in Dynatrace
+# Custom metrics are defined in:
+# 1. Service definition (services.yaml) - inline custom metrics
+# 2. Metrics catalog repository - service-specific custom metrics
+
+# Custom Metric Structure:
+# {
+#   "name": "metric_name",
+#   "type": "counter|gauge|histogram",
+#   "description": "Metric description",
+#   "unit": "count|percent|milliseconds|seconds",
+#   "aggregation": "sum|avg|min|max|p95|p99",
+#   "dimensions": ["dimension1", "dimension2"]
+# }
+
+# Example Custom Metrics:
+# - payment_transactions_total (counter)
+# - payment_success_rate (gauge)
+# - fraud_check_latency (histogram)
+# - chargeback_count (counter)
+
+# These are merged into Dynatrace ConfigMap during manifest generation
+
