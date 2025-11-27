@@ -1,0 +1,517 @@
+<mxfile host="app.diagrams.net" modified="2025-11-16T00:00:00.000Z" agent="5.0" version="21.6.5" etag="layer-relationships-v1" type="device">
+  <diagram name="Layer Relationships" id="layer-relationships">
+    <mxGraphModel dx="2000" dy="1800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Kustomize Config Management: Layer Relationships" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;fontColor=#1a237e" vertex="1" parent="1">
+          <mxGeometry x="600" y="20" width="1200" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Section 1: Catalog Layer -->
+        <mxCell id="catalog-section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="50" y="100" width="1100" height="400" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="catalog-title" value="CATALOG LAYER (Single Source of Truth)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#cc6600" vertex="1" parent="1">
+          <mxGeometry x="70" y="110" width="500" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- services.yaml -->
+        <mxCell id="services-yaml" value="services.yaml&#xa;(Service Definitions)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="160" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="service-example" value="Service: payment-processor&#xa;• archetype: api&#xa;• profile: public-api&#xa;• size: large&#xa;• regions: [euw1]&#xa;• enabledIn: [int-stable]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="90" y="260" width="180" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- profiles.yaml -->
+        <mxCell id="profiles-yaml" value="profiles.yaml&#xa;(Behavior Templates)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="320" y="160" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="profile-example" value="Profile: public-api&#xa;• archetype: api&#xa;• components:&#xa;  - ingress&#xa;  - hpa&#xa;  - pdb&#xa;  - retry&#xa;  - circuit-breaker" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="330" y="260" width="180" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- sizes.yaml -->
+        <mxCell id="sizes-yaml" value="sizes.yaml&#xa;(Resource Sizing)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="560" y="160" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="size-example" value="Size: large&#xa;• cpu: 500m&#xa;• memory: 1Gi&#xa;• scaling:&#xa;  min: 3&#xa;  max: 10&#xa;  cpuTarget: 70%" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="570" y="260" width="180" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- channels.yaml -->
+        <mxCell id="channels-yaml" value="channels.yaml&#xa;(Release Channels)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="800" y="160" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="channel-example" value="Channel: stable&#xa;→ Git ref: main" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="810" y="260" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- env-pins.yaml -->
+        <mxCell id="env-pins-yaml" value="env-pins.yaml&#xa;(Version Pins)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1040" y="160" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="env-pin-example" value="Environment: int-stable&#xa;→ Git ref: v1.2.3" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1050" y="260" width="180" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Service references Profile and Size -->
+        <mxCell id="arrow-service-profile" value="references" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#82b366;fontSize=11;fontStyle=1" edge="1" parent="1" source="services-yaml" target="profiles-yaml">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-service-size" value="references" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.75;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#9673a6;fontSize=11;fontStyle=1" edge="1" parent="1" source="services-yaml" target="sizes-yaml">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Section 2: Kustomize Layers -->
+        <mxCell id="kustomize-section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="50" y="540" width="1100" height="600" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="kustomize-title" value="KUSTOMIZE LAYERS (Manifest Generation)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#663399" vertex="1" parent="1">
+          <mxGeometry x="70" y="550" width="500" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 1: Base -->
+        <mxCell id="base-layer" value="Layer 1: Base (cb-base)&#xa;Organization Standards" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="600" width="250" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="base-content" value="• Common labels&#xa;• Common annotations&#xa;• Base network policy&#xa;• ServiceAccount defaults" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="90" y="670" width="230" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 2: Archetype -->
+        <mxCell id="archetype-layer" value="Layer 2: Archetype (api)&#xa;Workload Structure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="600" width="250" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="archetype-content" value="• Deployment&#xa;• Service (ClusterIP)&#xa;• ServiceAccount + RBAC&#xa;• Health probes" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="670" width="230" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 3: Components -->
+        <mxCell id="components-layer" value="Layer 3: Components&#xa;Optional Features" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="660" y="600" width="250" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="components-content" value="• ingress (external access)&#xa;• hpa (auto-scaling)&#xa;• pdb (high availability)&#xa;• retry, circuit-breaker, etc." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="670" y="670" width="230" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 4: Environment Overlay -->
+        <mxCell id="env-overlay-layer" value="Layer 4: Environment Overlay&#xa;(int-stable)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="760" width="250" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="env-overlay-content" value="• LimitRange&#xa;• ResourceQuota&#xa;• DNS configuration&#xa;• Certificate issuer" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="90" y="830" width="230" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 5: Region Overlay -->
+        <mxCell id="region-overlay-layer" value="Layer 5: Region Overlay&#xa;(euw1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="760" width="250" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="region-overlay-content" value="• Region labels&#xa;• Gateway class&#xa;• Topology spread&#xa;• Tolerations" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="830" width="230" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Layer 6: Service Patches -->
+        <mxCell id="service-patches-layer" value="Layer 6: Service Patches&#xa;(From Size &amp; Catalog)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="660" y="760" width="250" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="service-patches-content" value="• CPU/Memory (from size)&#xa;• Min/Max replicas (from size)&#xa;• Image configuration&#xa;• Namespace, labels" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="670" y="830" width="230" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Layer hierarchy -->
+        <mxCell id="arrow-base-archetype" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#82b366;fontSize=11;fontStyle=1" edge="1" parent="1" source="base-layer" target="archetype-layer">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="800" as="sourcePoint" />
+            <mxPoint x="450" y="750" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="205" y="700" />
+              <mxPoint x="495" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-archetype-components" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#9673a6;fontSize=11;fontStyle=1" edge="1" parent="1" source="archetype-layer" target="components-layer">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="800" as="sourcePoint" />
+            <mxPoint x="450" y="750" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="495" y="700" />
+              <mxPoint x="785" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-components-env" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#b85450;fontSize=11;fontStyle=1" edge="1" parent="1" source="components-layer" target="env-overlay-layer">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="800" as="sourcePoint" />
+            <mxPoint x="450" y="750" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="785" y="800" />
+              <mxPoint x="205" y="800" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-env-region" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" edge="1" parent="1" source="env-overlay-layer" target="region-overlay-layer">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="800" as="sourcePoint" />
+            <mxPoint x="450" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-region-patches" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#d79b00;fontSize=11;fontStyle=1" edge="1" parent="1" source="region-overlay-layer" target="service-patches-layer">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="800" as="sourcePoint" />
+            <mxPoint x="450" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Final Output -->
+        <mxCell id="final-output" value="Final Kubernetes Manifests&#xa;(Deployment, Service, Ingress, HPA, PDB, etc.)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;strokeWidth=3;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="920" width="830" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-patches-output" value="kustomize build" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#28a745;fontSize=11;fontStyle=1" edge="1" parent="1" source="service-patches-layer" target="final-output">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="900" as="sourcePoint" />
+            <mxPoint x="450" y="850" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="785" y="880" />
+              <mxPoint x="495" y="880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Section 3: Data Flow -->
+        <mxCell id="dataflow-section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="100" width="700" height="1040" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="dataflow-title" value="DATA FLOW: How It All Works Together" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#333333" vertex="1" parent="1">
+          <mxGeometry x="1220" y="110" width="600" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Step 1 -->
+        <mxCell id="step1" value="Step 1: Service Definition" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1220" y="160" width="660" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step1-content" value="Service: payment-processor&#xa;• profile: public-api&#xa;• size: large&#xa;• regions: [euw1]&#xa;• enabledIn: [int-stable]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1230" y="210" width="640" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Step 2 -->
+        <mxCell id="step2" value="Step 2: Profile Lookup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1220" y="290" width="660" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step2-content" value="Profile: public-api&#xa;• archetype: api → Use archetype/api/&#xa;• components: [ingress, hpa, pdb, ...] → Include these components" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1230" y="340" width="640" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Step 3 -->
+        <mxCell id="step3" value="Step 3: Size Lookup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1220" y="410" width="660" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step3-content" value="Size: large&#xa;• cpu: 500m → Patch Deployment&#xa;• memory: 1Gi → Patch Deployment&#xa;• scaling: {min: 3, max: 10} → Patch HPA" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1230" y="460" width="640" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Step 4 -->
+        <mxCell id="step4" value="Step 4: Generate kustomization.yaml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1220" y="530" width="660" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step4-content" value="resources:&#xa;  - cb-base                    # Layer 1&#xa;  - archetype/api              # Layer 2&#xa;  - envs/int-stable            # Layer 4&#xa;  - regions/euw1               # Layer 5&#xa;components:&#xa;  - components/ingress          # Layer 3&#xa;  - components/hpa&#xa;  - components/pdb&#xa;patches:&#xa;  - CPU/Memory (from size)      # Layer 6&#xa;  - Min/Max replicas (from size)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1230" y="580" width="640" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Step 5 -->
+        <mxCell id="step5" value="Step 5: Kustomize Build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1220" y="720" width="660" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step5-content" value="kustomize build tmp/payment-processor/int-stable/euw1/&#xa;&#xa;Output: Complete Kubernetes manifests&#xa;• Deployment (with CPU/memory from size)&#xa;• Service (from archetype)&#xa;• Ingress (from component)&#xa;• HPA (from component, with min/max from size)&#xa;• PDB (from component)&#xa;• All with labels from base, env, region" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1230" y="770" width="640" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Step 6 -->
+        <mxCell id="step6" value="Step 6: Deploy to Kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1220" y="890" width="660" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step6-content" value="kubectl apply -f manifests.yaml&#xa;&#xa;All resources deployed:&#xa;✅ Namespace: int-stable-payment-processor-euw1-stable&#xa;✅ Deployment: payment-processor (3 replicas)&#xa;✅ Service: payment-processor (ClusterIP)&#xa;✅ Ingress: payment-processor (external access)&#xa;✅ HPA: payment-processor (3-10 replicas)&#xa;✅ PDB: payment-processor (min available: 1)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="1230" y="940" width="640" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Data flow steps -->
+        <mxCell id="arrow-step1-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#82b366;fontSize=11;fontStyle=1" edge="1" parent="1" source="step1" target="step2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-step2-3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#9673a6;fontSize=11;fontStyle=1" edge="1" parent="1" source="step2" target="step3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-step3-4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" edge="1" parent="1" source="step3" target="step4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-step4-5" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#b85450;fontSize=11;fontStyle=1" edge="1" parent="1" source="step4" target="step5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-step5-6" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#28a745;fontSize=11;fontStyle=1" edge="1" parent="1" source="step5" target="step6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Section 4: Relationship Diagram -->
+        <mxCell id="relationship-section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#ffc107;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1180" width="1100" height="400" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="relationship-title" value="RELATIONSHIP DIAGRAM: How Layers Reference Each Other" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#cc6600" vertex="1" parent="1">
+          <mxGeometry x="70" y="1190" width="600" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Service -->
+        <mxCell id="service-box" value="Service&#xa;payment-processor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="100" y="1240" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Profile -->
+        <mxCell id="profile-box" value="Profile&#xa;public-api" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="320" y="1240" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Archetype -->
+        <mxCell id="archetype-box" value="Archetype&#xa;api" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="540" y="1240" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Components -->
+        <mxCell id="components-box" value="Components&#xa;ingress, hpa, pdb" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="760" y="1240" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Size -->
+        <mxCell id="size-box" value="Size&#xa;large" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="100" y="1340" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Base -->
+        <mxCell id="base-box" value="Base&#xa;cb-base" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="320" y="1340" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Environment Overlay -->
+        <mxCell id="env-box" value="Environment&#xa;int-stable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="540" y="1340" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Region Overlay -->
+        <mxCell id="region-box" value="Region&#xa;euw1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="760" y="1340" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Relationships -->
+        <mxCell id="arrow-service-profile-rel" value="references" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#82b366;fontSize=11;fontStyle=1" edge="1" parent="1" source="service-box" target="profile-box">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-profile-archetype-rel" value="includes" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#2e7d32;fontSize=11;fontStyle=1" edge="1" parent="1" source="profile-box" target="archetype-box">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-profile-components-rel" value="includes" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#9673a6;fontSize=11;fontStyle=1" edge="1" parent="1" source="profile-box" target="components-box">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="410" y="1270" />
+              <mxPoint x="850" y="1270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-service-size-rel" value="references" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#b85450;fontSize=11;fontStyle=1" edge="1" parent="1" source="service-box" target="size-box">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-base-archetype-rel" value="applied to" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d6b656;fontSize=11;fontStyle=1" edge="1" parent="1" source="base-box" target="archetype-box">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-env-region-rel" value="applied to" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#1976d2;fontSize=11;fontStyle=1" edge="1" parent="1" source="env-box" target="region-box">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1440" width="840" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="110" y="1450" width="820" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-catalog" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1485" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-catalog-text" value="Catalog (services.yaml, profiles.yaml, sizes.yaml)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="1480" width="300" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-kustomize" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="470" y="1485" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-kustomize-text" value="Kustomize Layers (base, archetype, components, overlays)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="1480" width="420" height="25" as="geometry" />
+        </mxCell>
+        
+        <!-- Key Relationships Summary -->
+        <mxCell id="summary-box" value="Key Relationships:&#xa;• Service → Profile → Archetype + Components&#xa;• Service → Size → Resources (CPU, memory, replicas)&#xa;• Profile includes Archetype (structure) + Components (features)&#xa;• Base applies to all services (organization standards)&#xa;• Environment Overlay applies per environment (int-stable, prod)&#xa;• Region Overlay applies per region (euw1, euw2)&#xa;• All layers combined → Final Kubernetes Manifests" style="text;html=1;strokeColor=#666666;fillColor=#fff3cd;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontFamily=Courier New" vertex="1" parent="1">
+          <mxGeometry x="100" y="1520" width="840" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Section 5: Hierarchy Visualization -->
+        <mxCell id="hierarchy-section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="1180" width="700" height="400" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="hierarchy-title" value="LAYER HIERARCHY: Application Order" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#1976d2" vertex="1" parent="1">
+          <mxGeometry x="1220" y="1190" width="600" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Hierarchy levels -->
+        <mxCell id="hierarchy-1" value="1. Base (cb-base)&#xa;Organization Standards" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1240" width="640" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="hierarchy-2" value="2. Archetype (api)&#xa;Workload Structure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1280" width="640" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="hierarchy-3" value="3. Components (ingress, hpa, pdb)&#xa;Optional Features" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1320" width="640" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="hierarchy-4" value="4. Environment Overlay (int-stable)&#xa;Environment Configuration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1360" width="640" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="hierarchy-5" value="5. Region Overlay (euw1)&#xa;Region Configuration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1400" width="640" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="hierarchy-6" value="6. Service Patches (from Size &amp; Catalog)&#xa;Service-Specific Configuration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1440" width="640" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="hierarchy-final" value="Final Kubernetes Manifests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;strokeWidth=2;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1480" width="640" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrows: Hierarchy -->
+        <mxCell id="arrow-h1-h2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#82b366;fontSize=11;fontStyle=1" edge="1" parent="1" source="hierarchy-1" target="hierarchy-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-h2-h3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#9673a6;fontSize=11;fontStyle=1" edge="1" parent="1" source="hierarchy-2" target="hierarchy-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-h3-h4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#b85450;fontSize=11;fontStyle=1" edge="1" parent="1" source="hierarchy-3" target="hierarchy-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-h4-h5" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" edge="1" parent="1" source="hierarchy-4" target="hierarchy-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-h5-h6" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d79b00;fontSize=11;fontStyle=1" edge="1" parent="1" source="hierarchy-5" target="hierarchy-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="arrow-h6-final" value="kustomize build" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#28a745;fontSize=11;fontStyle=1" edge="1" parent="1" source="hierarchy-6" target="hierarchy-final">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
